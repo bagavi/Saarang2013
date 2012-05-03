@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical" android:layout_width="fill_parent"
+	android:layout_height="fill_parent">
+
+	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		android:orientation="horizontal" android:layout_width="fill_parent"
+		android:layout_height="@dimen/mainWidth" android:layout_marginTop="@dimen/dip"
+		android:layout_marginBottom="@dimen/dip">
+
+		<RelativeLayout android:layout_width="@dimen/buttonWidth"
+			android:layout_height="@dimen/buttonHeight">
+			<ImageButton android:id="@+id/Hosipitality"
+				android:layout_width="@dimen/buttonWidth" android:layout_height="@dimen/buttonHeight"
+				android:layout_marginTop="@dimen/dip" android:layout_marginLeft="@dimen/dip"
+				style="@style/button" android:background="#E51400" />
+			<TextView android:layout_width="fill_parent"
+				android:layout_height="fill_parent" android:textSize="35sp"
+				android:text="Hospi " android:gravity="center" android:textColor="#FFFFFF" />
+		</RelativeLayout>
+
+		<RelativeLayout android:layout_width="@dimen/buttonWidth"
+			android:layout_height="@dimen/buttonHeight">
+			<ImageButton android:id="@+id/Events"
+				android:layout_width="@dimen/buttonWidth" android:layout_height="@dimen/buttonHeight"
+				android:layout_marginTop="@dimen/dip" android:layout_marginLeft="@dimen/dip"
+				style="@style/button" />
+			<TextView android:layout_width="fill_parent"
+				android:layout_height="fill_parent" android:textSize="36sp"
+				android:text="Events " android:gravity="center" android:textColor="#FFFFFF" />
+		</RelativeLayout>
+
+	</LinearLayout>
+
+	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		android:orientation="horizontal" android:layout_width="fill_parent"
+		android:layout_height="@dimen/buttonHeight">
+		<RelativeLayout android:layout_width="@dimen/ProShowbuttonWidth"
+			android:layout_height="@dimen/buttonHeight">
+			<ImageButton android:id="@+id/ProShow"
+				android:layout_width="@dimen/ProShowbuttonWidth"
+				android:layout_height="@dimen/buttonHeight"
+				android:layout_marginBottom="@dimen/dip" android:layout_marginLeft="@dimen/dip"
+				style="@style/button" />
+			<TextView android:layout_width="fill_parent"
+				android:layout_height="fill_parent" android:textSize="60sp"
+				android:text="ProShow " android:gravity="center" android:textColor="#FFFFFF" />
+		</RelativeLayout>
+
+
+	</LinearLayout>
+	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		android:orientation="horizontal" android:layout_width="fill_parent"
+		android:layout_height="@dimen/buttonHeight"
+		android:layout_marginBottom="@dimen/dip">
+
+		<RelativeLayout android:layout_width="@dimen/buttonWidth"
+			android:layout_height="@dimen/buttonHeight">
+			<ImageButton android:id="@+id/Sponsors"
+				android:layout_width="@dimen/buttonWidth" android:layout_height="@dimen/buttonHeight"
+				android:layout_marginBottom="@dimen/dip" android:layout_marginLeft="@dimen/dip"
+				style="@style/button" android:gravity="center" />
+			<TextView android:layout_width="fill_parent"
+				android:layout_height="fill_parent" android:textSize="33sp"
+				android:text="Sponsors" android:gravity="center" android:textColor="#FFFFFF" />
+		</RelativeLayout>
+		<RelativeLayout android:layout_width="@dimen/buttonWidth"
+			android:layout_height="@dimen/buttonHeight">
+			<ImageButton android:id="@+id/Coord_Info"
+				android:layout_width="@dimen/buttonWidth" android:layout_height="@dimen/buttonHeight"
+				android:layout_marginBottom="@dimen/dip" android:layout_marginLeft="@dimen/dip"
+				style="@style/button" android:gravity="center" />
+			<TextView android:layout_width="fill_parent"
+				android:layout_height="fill_parent" android:textSize="28sp"
+				android:text="Coord Info" android:textColor="#FFFFFF"
+				android:gravity="center" />
+		</RelativeLayout>
+
+	</LinearLayout>
+
+</LinearLayout>

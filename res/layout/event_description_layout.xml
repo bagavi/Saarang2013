@@ -1,0 +1,60 @@
+<LinearLayout android:id="@+id/relativeLayout1"
+	android:layout_width="fill_parent" android:layout_height="fill_parent"
+	android:orientation="vertical" android:background="#FFFFFF"
+	xmlns:android="http://schemas.android.com/apk/res/android">
+	<LinearLayout android:id="@+id/linearLayout2"
+		android:layout_width="fill_parent" android:layout_height="wrap_content"
+		android:background="@drawable/event_page_header" android:orientation="vertical"
+		android:layout_alignParentTop="true">
+
+		<TextView android:id="@+id/event_category"
+			android:layout_width="fill_parent" android:layout_height="wrap_content"
+			android:text="Category" android:textColor="#FFFFFF" android:textSize="20sp"
+			android:textStyle="bold" android:shadowColor="#000000"
+			android:shadowDx="1.0 " android:shadowDy="1.0 " android:shadowRadius="0.25">
+		</TextView>
+
+
+	</LinearLayout>
+
+	<LinearLayout android:layout_height="fill_parent"
+		android:layout_width="fill_parent" android:orientation="vertical"
+		android:id="@+id/segmented_control" >
+
+		<LinearLayout android:layout_height="wrap_content"
+			android:layout_width="fill_parent" android:orientation="horizontal"
+			android:id="@+id/segmented_control_gen1">
+			<ImageButton android:layout_weight="1" android:layout_height="wrap_content"
+				android:layout_width="wrap_content" android:id="@+id/intro"
+				android:background="@drawable/event_page_button2">
+			</ImageButton>
+
+			<ImageButton android:layout_weight="1" android:layout_height="wrap_content"
+				android:layout_width="wrap_content" android:id="@+id/eventFormat"
+				android:background="@drawable/event_page_button1" >
+   		</ImageButton>
+
+		</LinearLayout>
+
+
+		<LinearLayout android:layout_width="fill_parent" android:orientation="vertical"
+			android:id="@+id/segmented_control_gen2" 
+			android:background="@drawable/event_page_bottom" android:layout_height="fill_parent">
+			<TextView android:id="@+id/introLabel" 
+				android:layout_height="wrap_content" android:layout_width="fill_parent"
+				android:text="Introduction" style="@style/TextLabel">
+			</TextView>
+
+			<ScrollView android:id="@+id/vert" android:layout_width="fill_parent"
+				android:layout_height="wrap_content" android:scrollbars="vertical"
+				android:layout_below="@id/introLabel">
+				<TextView android:id="@+id/eventDescription"
+					android:layout_width="wrap_content" android:layout_height="wrap_content"
+					android:text="" android:textSize="14sp" android:textColor="#FFFFFF"
+					android:scrollbars="vertical" android:maxLines="300">
+				</TextView>
+			</ScrollView>
+		</LinearLayout>
+	</LinearLayout>
+</LinearLayout>
+	

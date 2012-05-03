@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/maps"
+          
+          android:title="Maps" />
+    <item android:id="@+id/coordlist"
+          
+          android:title="Coordinator List" />
+    <item android:id="@+id/maps1"
+          
+          android:title="Maps" />
+    <item android:id="@+id/coordlist1"
+          
+          android:title="Coordinator List" />
+</menu>

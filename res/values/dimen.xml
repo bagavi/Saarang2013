@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<dimen name="dip">5dip</dimen>
+	<dimen name="buttonWidth">150dip</dimen>
+	<dimen name="ProShowbuttonWidth">300dip</dimen>
+	<dimen name="buttonHeight">150dip</dimen>
+	<dimen name="SponsPicHeight">75dip</dimen>
+	<dimen name="mainWidth">150dip</dimen>
+	<dimen name="IconLayoutHeight">50dip</dimen>
+	<dimen name="IconWidth">50dip</dimen>
+	<dimen name="IconHeigth">50dip</dimen>
+	<dimen name="IconDescriptionWidth">200dip</dimen>
+	<dimen name="IconBotPadding">5dip</dimen>
+	<dimen name="IconDescriptionHeight">50dip</dimen>
+</resources>

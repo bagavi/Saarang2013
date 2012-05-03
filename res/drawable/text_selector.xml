@@ -1,0 +1,41 @@
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+  
+  
+       <!-- When the window does not have focus. -->
+       
+       <item android:drawable="@drawable/round" 
+           android:state_selected="true"
+           android:state_window_focused="false"
+           />
+           
+       <item android:drawable="@drawable/round" 
+           android:state_selected="false"
+           android:state_window_focused="false"
+           />
+       
+       
+       <!-- When the window does have focus. -->
+           
+       <item android:drawable="@drawable/round_selected" 
+           android:state_selected="true"
+           android:state_pressed="true"
+           />
+           
+      <item android:drawable="@drawable/round" 
+           android:state_selected="true"
+           android:state_focused="true"
+           />
+           
+      <item android:drawable="@drawable/round_selected" 
+           android:state_selected="true"
+           />
+           
+       <item android:drawable="@drawable/round_selected" 
+           android:state_selected="false"
+           android:state_pressed="true"
+           />
+           
+       <item android:drawable="@drawable/round" 
+           />
+           
+   </selector>
