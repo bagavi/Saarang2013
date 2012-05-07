@@ -2,7 +2,7 @@ package com.saarang;
 
 /*
 
- * This activtiy displays the coord info..
+ * This activity displays the coord info..
  * This Activity can be used in various ways.. very versatile
  * Major functions
  * 		It can fetch Coord details for a given evetn( through EventId)
@@ -11,6 +11,7 @@ package com.saarang;
  * each item in the list when clicked opens dialogue box which gives him three options 
  */
 import java.io.IOException;
+
 
 import com.saarang.adapter_database.CordListAdapter;
 import com.saarang.adapter_database.DatabaseHelper;
@@ -25,17 +26,24 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.AdapterView.OnItemClickListener;
 
-public class CordListActivity extends ListActivity {
+import com.views.*;
+
+public class CordListActivity extends Activity {
 	public int eventId;
+    /** The list view */
+    private MyListView mListView;
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+        setContentView(R.layout.coordlist);
 		Bundle extras = getIntent().getExtras();
 		eventId = extras.getInt("eventId", -1);
-		// Log.e is used for debugging, please use it (Standard method)
+		mListView = (MyListView)findViewById(R.id.my_list);
 		Log.e("Test", "Entered Coord List Activity");
 		Log.e("list Activity ", "event Id " + eventId);
 
@@ -58,42 +66,43 @@ public class CordListActivity extends ListActivity {
 		}
 		startManagingCursor(cursor);
 		CordListAdapter adapter = new CordListAdapter(this, cursor);
-		this.setListAdapter(adapter);
+		mListView.setAdapter(adapter);
+		/*
+        mListView.setOnItemClickListener(new OnItemClickListener() {
 
-	}
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View v, int arg2,
+					long arg3) {
 
-	/*
-	 * This is a standard function implermented
-	 * When a particular coord name is clicked, a dialogue box opens It gives
-	 * option to call , message
-	 */
-	@Override
-	protected void onListItemClick(ListView l, View v, int position, long id) {
-		super.onListItemClick(l, v, position, id);
-		TextView phoneView = (TextView) v.findViewById(R.id.cordphone);
-		String phone = (String) phoneView.getText();
+				TextView phoneView = (TextView) v.findViewById(R.id.cordphone);
+				String phone = (String) phoneView.getText();
 
-		final String uri = "tel:" + phone;
-		final String messageUri = "sms:" + phone;
+				final String uri = "tel:" + phone;
+				final String messageUri = "sms:" + phone;
+				AlertDialog.Builder builder = new AlertDialog.Builder(getParent());
+				builder.setMessage("Do you want to call or message the coordinator?")
+						.setCancelable(true).setPositiveButton("Call",
+								new DialogInterface.OnClickListener() {
+									public void onClick(DialogInterface dialog, int id) {
+										Intent intent = new Intent(Intent.ACTION_CALL,
+												Uri.parse(uri));
+										startActivity(intent);
+									}
+								}).setNegativeButton("Message",
+								new DialogInterface.OnClickListener() {
+									public void onClick(DialogInterface dialog, int id) {
+										Intent intent = new Intent(Intent.ACTION_VIEW,
+												Uri.parse(messageUri));
+										startActivity(intent);
+									}
+								});
+				AlertDialog alert = builder.create();
+				alert.show();
+				
+			}
+        	
+        }) ;
 
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setMessage("Do you want to call or message the coordinator?")
-				.setCancelable(true).setPositiveButton("Call",
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog, int id) {
-								Intent intent = new Intent(Intent.ACTION_CALL,
-										Uri.parse(uri));
-								startActivity(intent);
-							}
-						}).setNegativeButton("Message",
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog, int id) {
-								Intent intent = new Intent(Intent.ACTION_VIEW,
-										Uri.parse(messageUri));
-								startActivity(intent);
-							}
-						});
-		AlertDialog alert = builder.create();
-		alert.show();
+		 */
 	}
 }

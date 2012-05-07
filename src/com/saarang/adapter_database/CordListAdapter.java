@@ -54,7 +54,6 @@ public class CordListAdapter extends CursorAdapter {
 			int eventId = cursor.getInt(3);
 			Log.e("Adapter" ,""+eventId);
 			Log.e("Adapter" ,gallery_manager.eventNameHash.get(eventId));
-			//name = g.eventNameHash.get(eventid);
 			eventName.setText(gallery_manager.eventNameHash.get(eventId)); // Sets the vent name of the coord
 		}	
 	}
@@ -62,7 +61,7 @@ public class CordListAdapter extends CursorAdapter {
 	/*inflates the layout xml file */
 	@Override
 	public View newView(Context context, Cursor cursor, ViewGroup parent) {
-		final View view = inflator.inflate(R.layout.cordlist,parent,false);
+		final View view = inflator.inflate(R.layout.coord_list_item,parent,false);
 		return view;
 
 	}
