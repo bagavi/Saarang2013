@@ -5,7 +5,6 @@ package com.saarang;
  * Dont read this now cuasde we will be changing it completely this time
  */
 import android.app.Activity;
-
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
@@ -75,7 +74,6 @@ public class SponsActivity extends Activity {
 
 		imageView1.setOnClickListener(new OnClickListener() {
 
-			@Override
 			public void onClick(View v) {
 				Context context = getApplicationContext();
 				Toast.makeText(context, text[0], Toast.LENGTH_SHORT).show();
@@ -86,7 +84,6 @@ public class SponsActivity extends Activity {
 
 		imageView2.setOnClickListener(new OnClickListener() {
 
-			@Override
 			public void onClick(View v) {
 				Context context = getApplicationContext();
 				Toast.makeText(context, text[1], Toast.LENGTH_SHORT).show();
@@ -97,7 +94,6 @@ public class SponsActivity extends Activity {
 
 		imageView3.setOnClickListener(new OnClickListener() {
 
-			@Override
 			public void onClick(View v) {
 				Context context = getApplicationContext();
 				Toast.makeText(context, text[2], Toast.LENGTH_SHORT).show();
@@ -108,7 +104,6 @@ public class SponsActivity extends Activity {
 
 		imageView4.setOnClickListener(new OnClickListener() {
 
-			@Override
 			public void onClick(View v) {
 				Context context = getApplicationContext();
 				Toast.makeText(context, text[3], Toast.LENGTH_SHORT).show();
@@ -119,7 +114,6 @@ public class SponsActivity extends Activity {
 
 		imageView5.setOnClickListener(new OnClickListener() {
 
-			@Override
 			public void onClick(View v) {
 				Context context = getApplicationContext();
 				Toast.makeText(context, text[4], Toast.LENGTH_SHORT).show();

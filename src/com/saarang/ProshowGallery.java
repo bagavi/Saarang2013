@@ -48,7 +48,6 @@ public class ProshowGallery extends Activity {
 
 		ga.setOnItemClickListener(new OnItemClickListener() {
 
-			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
 
@@ -76,25 +75,21 @@ public class ProshowGallery extends Activity {
 			ta.recycle();
 		}
 
-		@Override
 		public int getCount() {
 
 			return pics.length;
 		}
 
-		@Override
 		public Object getItem(int arg0) {
 
 			return arg0;
 		}
 
-		@Override
 		public long getItemId(int arg0) {
 
 			return arg0;
 		}
 
-		@Override
 		public View getView(int arg0, View arg1, ViewGroup arg2) {
 			ImageView iv = new ImageView(ctx);
 			iv.setImageResource(pics[arg0]);

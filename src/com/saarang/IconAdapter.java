@@ -41,7 +41,6 @@ public class IconAdapter extends BaseAdapter{
 		eventId = event_id;
 	}
 	
-	@Override
     public View getView(int position, View convertView, ViewGroup parent) {
 		
 		IconView iconview = new IconView(c);
@@ -52,16 +51,13 @@ public class IconAdapter extends BaseAdapter{
 	}
 	
 	
-	@Override
 	public int getCount() {
     	return IconData.EventCategoryText.length;
 	}
-	@Override
 	public Object getItem(int arg0) {
 
 		return arg0;
 	}
-	@Override
 	public long getItemId(int arg0) {
 
 		return arg0;
@@ -75,7 +71,6 @@ public class IconAdapter extends BaseAdapter{
 			mposition = position;
 		}	
 		
-		@Override
 		public void onClick(View arg0) {
 			Log.e("click problems",""+mposition);
 			Intent intent = new Intent(c , EventActivity.class);
@@ -86,4 +81,3 @@ public class IconAdapter extends BaseAdapter{
 		
 	}
 }
-

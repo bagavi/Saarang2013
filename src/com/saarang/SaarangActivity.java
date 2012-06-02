@@ -45,9 +45,9 @@ public class SaarangActivity extends Activity {
 		Sponsors.setOnClickListener(ImageButtonListener);
 
 	}
-
+	//private OnClickListener test = new 
 	private OnClickListener ImageButtonListener = new OnClickListener() {
-		@Override
+		
 		public void onClick(View v) {
 			Integer id = v.getId();
 			dispval = id.toString();

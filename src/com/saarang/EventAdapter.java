@@ -5,14 +5,11 @@ package com.saarang;
  * It fills the ListActivity with the events in the category selected
  */
 import android.content.Context;
-import android.content.Intent;
-import android.sax.StartElementListener;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
-import android.widget.ImageButton;
 import android.widget.TextView;
 import com.saarang.gallery_manager;
 
@@ -34,7 +31,6 @@ public class EventAdapter extends BaseAdapter{
 		this.c = c;
 	}
 	
-	@Override
     public View getView(int position, View convertView, ViewGroup parent) {
 		
 		EventView eventView = new EventView(c);
@@ -45,8 +41,6 @@ public class EventAdapter extends BaseAdapter{
 	}
 	
 	
-	@Override
-    
     public int getCount() {
       if (eventId!=-1)
     	return sources.eventids[eventId].length;
@@ -54,12 +48,10 @@ public class EventAdapter extends BaseAdapter{
     	  return 0;
     }
 
-	@Override
 	public Object getItem(int arg0) {
 
 		return arg0;
 	}
-	@Override
 	public long getItemId(int arg0) {
 
 		return arg0;

@@ -137,7 +137,6 @@ public class EventInfoActivity extends Activity {
 
 	private class EventListener implements OnClickListener {
 
-		@Override
 		public void onClick(View v) {
 			mEventFormat.setSelected(false);
 			mEventFormat.setSelected(false);
