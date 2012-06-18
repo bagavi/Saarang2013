@@ -6,9 +6,6 @@
     <item android:id="@+id/coordlist"
           
           android:title="Coordinator List" />
-    <item android:id="@+id/maps1"
-          
-          android:title="Maps" />
     <item android:id="@+id/coordlist1"
           
           android:title="Coordinator List" />

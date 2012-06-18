@@ -41,7 +41,10 @@ public class DepartmentActivity extends ListActivity {
 			in.putExtras(extras);
 			startActivity(in);
 			break;
-
+		case R.id.maps:
+			Intent intent = new Intent(this, MapActivity.class);
+			startActivity(intent);
+			break;
 		}
 		return true;
 	}
