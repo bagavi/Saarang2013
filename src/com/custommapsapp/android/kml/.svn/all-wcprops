@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/!svn/ver/14/trunk/android/src/com/custommapsapp/android/kml
+END
+GroundOverlay.java
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/!svn/ver/5/trunk/android/src/com/custommapsapp/android/kml/GroundOverlay.java
+END
+KmlParser.java
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/!svn/ver/5/trunk/android/src/com/custommapsapp/android/kml/KmlParser.java
+END
+KmzFile.java
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/!svn/ver/14/trunk/android/src/com/custommapsapp/android/kml/KmzFile.java
+END
+KmlFile.java
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/!svn/ver/5/trunk/android/src/com/custommapsapp/android/kml/KmlFile.java
+END
+KmlFinder.java
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/!svn/ver/5/trunk/android/src/com/custommapsapp/android/kml/KmlFinder.java
+END
+KmlInfo.java
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/!svn/ver/5/trunk/android/src/com/custommapsapp/android/kml/KmlInfo.java
+END
+KmlFolder.java
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/!svn/ver/5/trunk/android/src/com/custommapsapp/android/kml/KmlFolder.java
+END
