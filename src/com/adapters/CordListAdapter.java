@@ -1,4 +1,4 @@
-package com.saarang.adapter_database;
+package com.adapters;
 
 /*
  * @author Bharath M R
@@ -11,7 +11,7 @@ import java.util.HashMap;
 
 
 import com.saarang.R;
-import com.saarang.gallery_manager;
+import com.utils.gallery_manager;
 
 import android.content.Context;
 import android.database.Cursor;

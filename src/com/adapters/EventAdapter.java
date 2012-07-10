@@ -11,7 +11,8 @@ import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-import com.saarang.gallery_manager;
+
+import com.utils.gallery_manager;
 import com.views.EventView;
 
 

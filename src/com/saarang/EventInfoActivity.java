@@ -13,7 +13,10 @@ import android.app.Activity;
 import android.bluetooth.BluetoothClass.Device.Major;
 import android.os.Bundle;
 import java.io.IOException;
-import com.saarang.adapter_database.DatabaseHelper;
+
+import com.database.DatabaseHelper;
+import com.utils.gallery_manager;
+
 import android.content.Intent;
 import android.database.Cursor;
 import android.util.Log;

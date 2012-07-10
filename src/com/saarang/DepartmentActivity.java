@@ -7,6 +7,8 @@ package com.saarang;
  * The list is selectable and will give the user list of events a particluar category
  * Eg Under Quiz - Buzzer quiz, Daily Quiz etc 
  */
+import com.adapters.IconAdapter;
+
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ListActivity;

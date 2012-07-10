@@ -2,7 +2,7 @@
  *
  Vivek has no fundeas the document this
  */
-package com.saarang;
+package com.utils;
 import com.saarang.R;
 import android.content.Context;
 import android.graphics.Canvas;

@@ -13,8 +13,8 @@ package com.saarang;
 import java.io.IOException;
 
 
-import com.saarang.adapter_database.CordListAdapter;
-import com.saarang.adapter_database.DatabaseHelper;
+import com.adapters.CordListAdapter;
+import com.database.DatabaseHelper;
 
 import android.app.Activity;
 import android.app.AlertDialog;

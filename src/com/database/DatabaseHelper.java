@@ -1,4 +1,4 @@
-package com.saarang.adapter_database;
+package com.database;
 
 import java.io.FileOutputStream;
 

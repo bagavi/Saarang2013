@@ -1,4 +1,4 @@
-package com.saarang;
+package com.adapters;
 
 /*
  * Read IconView before this
@@ -21,7 +21,9 @@ import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import com.saarang.gallery_manager;
+
+import com.saarang.EventActivity;
+import com.utils.gallery_manager;
 import com.views.IconView;
 
 

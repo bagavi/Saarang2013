@@ -9,6 +9,8 @@ package com.saarang;
  */
 
 import com.saarang.R;
+import com.utils.ProshowGallery;
+
 import java.io.*;
 import android.app.Activity;
 import android.app.AlertDialog;

@@ -1,9 +1,13 @@
-package com.saarang;
+package com.utils;
 /*
  * Vivek has no fundeas to document this. But as i can see, this is a very cup code
  * The whole proshow display will be changed this time
  */
 import com.saarang.R;
+import com.saarang.R.drawable;
+import com.saarang.R.id;
+import com.saarang.R.layout;
+import com.saarang.R.styleable;
 
 import android.app.Activity;
 import android.content.Context;
