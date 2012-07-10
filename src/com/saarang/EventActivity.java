@@ -7,6 +7,8 @@ package com.saarang;
  * Eg for buzzer quiz, it passes 2( which corresponds to Quiz) and 1(which corrsponds to buzzer quiz)
  * Eg2 For (8,2) implies Music(8) and Western music(2)  
  */
+import com.adapters.EventAdapter;
+
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;

@@ -1,4 +1,4 @@
-package com.saarang;
+package com.adapters;
 /*
  * Read icon Adapter Before this
  * Very similar to IconAdapter
@@ -12,6 +12,7 @@ import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 import com.saarang.gallery_manager;
+import com.views.EventView;
 
 
 public class EventAdapter extends BaseAdapter{

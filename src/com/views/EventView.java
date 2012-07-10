@@ -1,4 +1,4 @@
-package com.saarang;
+package com.views;
 /*
  * Read IconView and Adapter before this
  * Same as EventView 
@@ -6,6 +6,9 @@ package com.saarang;
  * Currently it is SAME
  */
 import com.saarang.R;
+import com.saarang.R.id;
+import com.saarang.R.layout;
+
 import android.content.Context;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;

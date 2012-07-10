@@ -22,6 +22,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import com.saarang.gallery_manager;
+import com.views.IconView;
 
 
 public class IconAdapter extends BaseAdapter{
