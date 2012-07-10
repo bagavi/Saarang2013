@@ -1,7 +1,10 @@
-package com.saarang;
+package com.views;
 
 
 import com.saarang.R;
+import com.saarang.R.id;
+import com.saarang.R.layout;
+
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
