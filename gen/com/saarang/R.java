@@ -144,35 +144,37 @@ public final class R {
         public static final int workshops=0x7f020070;
         public static final int wright=0x7f020071;
         public static final int writing=0x7f020072;
+        public static final int zoomin=0x7f020073;
+        public static final int zoomout=0x7f020074;
     }
     public static final class id {
         public static final int Coord_Info=0x7f090018;
         public static final int Events=0x7f090015;
-        public static final int Gallery01=0x7f090019;
-        public static final int Hosipitality=0x7f090014;
+        public static final int Gallery01=0x7f09001c;
         public static final int IconList=0x7f090006;
-        public static final int ImageView01=0x7f09001b;
-        public static final int ImageView02=0x7f09001c;
-        public static final int ImageView03=0x7f09001d;
-        public static final int ImageView04=0x7f09001e;
-        public static final int ImageView10=0x7f090024;
-        public static final int ImageView11=0x7f090025;
-        public static final int ImageView12=0x7f090026;
-        public static final int ImageView13=0x7f090027;
-        public static final int ImageView14=0x7f090028;
-        public static final int ImageView15=0x7f090029;
-        public static final int ImageView16=0x7f09002a;
-        public static final int ImageView17=0x7f09002b;
-        public static final int ImageView5=0x7f09001f;
-        public static final int ImageView6=0x7f090020;
-        public static final int ImageView7=0x7f090021;
-        public static final int ImageView8=0x7f090022;
-        public static final int ImageView9=0x7f090023;
+        public static final int ImageView01=0x7f09001e;
+        public static final int ImageView02=0x7f09001f;
+        public static final int ImageView03=0x7f090020;
+        public static final int ImageView04=0x7f090021;
+        public static final int ImageView10=0x7f090027;
+        public static final int ImageView11=0x7f090028;
+        public static final int ImageView12=0x7f090029;
+        public static final int ImageView13=0x7f09002a;
+        public static final int ImageView14=0x7f09002b;
+        public static final int ImageView15=0x7f09002c;
+        public static final int ImageView16=0x7f09002d;
+        public static final int ImageView17=0x7f09002e;
+        public static final int ImageView5=0x7f090022;
+        public static final int ImageView6=0x7f090023;
+        public static final int ImageView7=0x7f090024;
+        public static final int ImageView8=0x7f090025;
+        public static final int ImageView9=0x7f090026;
+        public static final int Map=0x7f090014;
         public static final int ProShow=0x7f090016;
         public static final int Sponsors=0x7f090017;
-        public static final int TextView01=0x7f09001a;
-        public static final int coordlist=0x7f09002d;
-        public static final int coordlist1=0x7f09002f;
+        public static final int TextView01=0x7f09001d;
+        public static final int coordlist=0x7f09002f;
+        public static final int coordlist1=0x7f090030;
         public static final int cordEvent=0x7f090003;
         public static final int cordname=0x7f090002;
         public static final int cordphone=0x7f090004;
@@ -184,17 +186,18 @@ public final class R {
         public static final int intro=0x7f09000c;
         public static final int introLabel=0x7f09000f;
         public static final int linearLayout2=0x7f090008;
-        public static final int maps=0x7f09002c;
-        public static final int maps1=0x7f09002e;
+        public static final int mapDisplay=0x7f090019;
         public static final int myButton=0x7f090012;
         public static final int my_list=0x7f090005;
         public static final int relativeLayout1=0x7f090007;
-        public static final int search_menu=0x7f090030;
+        public static final int search_menu=0x7f090031;
         public static final int segmented_control=0x7f09000a;
         public static final int segmented_control_gen1=0x7f09000b;
         public static final int segmented_control_gen2=0x7f09000e;
         public static final int tvName=0x7f090013;
         public static final int vert=0x7f090010;
+        public static final int zoomIn=0x7f09001b;
+        public static final int zoomOut=0x7f09001a;
     }
     public static final class layout {
         public static final int basic_event=0x7f030000;
@@ -205,8 +208,9 @@ public final class R {
         public static final int event_description_layout=0x7f030005;
         public static final int image_holder=0x7f030006;
         public static final int main=0x7f030007;
-        public static final int proshow=0x7f030008;
-        public static final int sponscategories=0x7f030009;
+        public static final int map=0x7f030008;
+        public static final int proshow=0x7f030009;
+        public static final int sponscategories=0x7f03000a;
     }
     public static final class menu {
         public static final int menu=0x7f080000;

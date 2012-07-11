@@ -10,13 +10,13 @@
 
 		<RelativeLayout android:layout_width="@dimen/buttonWidth"
 			android:layout_height="@dimen/buttonHeight">
-			<ImageButton android:id="@+id/Hosipitality"
+			<ImageButton android:id="@+id/Map"
 				android:layout_width="@dimen/buttonWidth" android:layout_height="@dimen/buttonHeight"
 				android:layout_marginTop="@dimen/dip" android:layout_marginLeft="@dimen/dip"
 				style="@style/button" android:background="#E51400" />
 			<TextView android:layout_width="fill_parent"
 				android:layout_height="fill_parent" android:textSize="35sp"
-				android:text="Hospi " android:gravity="center" android:textColor="#FFFFFF" />
+				android:text="Map" android:gravity="center" android:textColor="#FFFFFF" />
 		</RelativeLayout>
 
 		<RelativeLayout android:layout_width="@dimen/buttonWidth"

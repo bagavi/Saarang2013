@@ -25,7 +25,7 @@ import android.widget.ImageButton;
 public class SaarangActivity extends Activity {
 	ImageButton Events;
 	ImageButton ProShow;
-	ImageButton Hospitality;
+	ImageButton Map;
 	ImageButton Sponsors;
 	ImageButton Coord_Info;
 	public String dispval = ""; //Ignore this variable
@@ -38,12 +38,12 @@ public class SaarangActivity extends Activity {
 		ProShow = (ImageButton) findViewById(R.id.ProShow);
 		Events = (ImageButton) findViewById(R.id.Events);
 		Coord_Info = (ImageButton) findViewById(R.id.Coord_Info);
-		Hospitality = (ImageButton) findViewById(R.id.Hosipitality);
+		Map = (ImageButton) findViewById(R.id.Map);
 		Sponsors = (ImageButton) findViewById(R.id.Sponsors);
 		ProShow.setOnClickListener(ImageButtonListener);
 		Events.setOnClickListener(ImageButtonListener);
 		Coord_Info.setOnClickListener(ImageButtonListener);
-		Hospitality.setOnClickListener(ImageButtonListener);
+		Map.setOnClickListener(ImageButtonListener);
 		Sponsors.setOnClickListener(ImageButtonListener);
 
 	}
@@ -81,8 +81,10 @@ public class SaarangActivity extends Activity {
 						R.anim.slide_left_out);
 				break;
 
-			case R.id.Hosipitality:
-
+			case R.id.Map:
+				Log.e("", "Map clicked, will start activity	");
+				intent = new Intent(SaarangActivity.this, MapActivity.class);
+				startActivity(intent);
 				break;
 
 			case R.id.Sponsors:
