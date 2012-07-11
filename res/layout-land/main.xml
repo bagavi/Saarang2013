@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical" android:layout_width="fill_parent"
+	android:layout_height="fill_parent">
+
+	<LinearLayout
+	    xmlns:android="http://schemas.android.com/apk/res/android"
+	    android:layout_width="fill_parent"
+	    android:layout_height="@dimen/mainWidth"
+	    android:layout_marginBottom="@dimen/dip"
+	    android:layout_marginTop="@dimen/dip"
+	    android:orientation="horizontal" >
+
+	    <RelativeLayout
+	        android:layout_width="@dimen/buttonWidth"
+	        android:layout_height="@dimen/buttonHeight" >
+
+	        <ImageButton
+	            android:id="@+id/Map"
+	            style="@style/button"
+	            android:layout_width="@dimen/buttonWidth"
+	            android:layout_height="@dimen/buttonHeight"
+	            android:layout_marginLeft="@dimen/dip"
+	            android:layout_marginTop="@dimen/dip"
+	            android:background="#E51400" />
+
+	        <TextView
+	            android:layout_width="fill_parent"
+	            android:layout_height="fill_parent"
+	            android:gravity="center"
+	            android:text="Map"
+	            android:textColor="#FFFFFF"
+	            android:textSize="35sp" />
+	    </RelativeLayout>
+
+	    <RelativeLayout
+	        android:layout_width="200dp"
+	        android:layout_height="257dp"
+	        android:layout_weight="0.18" >
+
+	        <ImageButton
+	            android:id="@+id/ProShow"
+	            style="@style/button"
+	            android:layout_width="@dimen/ProShowbuttonWidth"
+	            android:layout_height="@dimen/buttonHeight"
+	            android:layout_marginBottom="@dimen/dip"
+	            android:layout_marginLeft="@dimen/dip" />
+
+	        <TextView
+	            android:layout_width="fill_parent"
+	            android:layout_height="fill_parent"
+	            android:layout_alignBottom="@+id/ProShow"
+	            android:gravity="center"
+	            android:text="ProShow "
+	            android:textColor="#FFFFFF"
+	            android:textSize="45sp" />
+
+	    </RelativeLayout>
+
+	    <RelativeLayout
+	        android:layout_width="@dimen/buttonWidth"
+	        android:layout_height="@dimen/buttonHeight" >
+
+	        <ImageButton
+	            android:id="@+id/Events"
+	            style="@style/button"
+	            android:layout_width="@dimen/buttonWidth"
+	            android:layout_height="@dimen/buttonHeight"
+	            android:layout_marginLeft="@dimen/dip"
+	            android:layout_marginTop="@dimen/dip" />
+
+	        <TextView
+	            android:layout_width="fill_parent"
+	            android:layout_height="fill_parent"
+	            android:gravity="center"
+	            android:text="Events "
+	            android:textColor="#FFFFFF"
+	            android:textSize="36sp" />
+	    </RelativeLayout>
+	</LinearLayout>
+
+	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		android:orientation="horizontal" android:layout_width="fill_parent"
+		android:layout_height="@dimen/buttonHeight">
+
+		<RelativeLayout
+		    android:layout_width="@dimen/buttonWidth"
+		    android:layout_height="97dp" >
+
+		    <ImageButton
+		        android:id="@+id/Coord_Info"
+		        style="@style/button"
+		        android:layout_width="@dimen/buttonWidth"
+		        android:layout_height="@dimen/buttonHeight"
+		        android:layout_marginBottom="@dimen/dip"
+		        android:layout_marginLeft="@dimen/dip" />
+
+		    <TextView
+		        android:layout_width="fill_parent"
+		        android:layout_height="fill_parent"
+		        android:gravity="center"
+		        android:text="Coord Info"
+		        android:textColor="#FFFFFF"
+		        android:textSize="28sp" />
+		</RelativeLayout>
+
+		<RelativeLayout
+		    android:layout_width="match_parent"
+		    android:layout_height="96dp" >
+
+		    <ImageButton
+		        android:id="@+id/Sponsors"
+		        style="@style/button"
+		        android:layout_width="match_parent"
+		        android:layout_height="@dimen/buttonHeight"
+		        android:layout_marginLeft="17dp" />
+
+		    <TextView
+		        android:layout_width="fill_parent"
+		        android:layout_height="fill_parent"
+		        android:gravity="center"
+		        android:text="Sponsors"
+		        android:textColor="#FFFFFF"
+		        android:textSize="33sp" />
+		</RelativeLayout>
+
+	</LinearLayout>
+	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		android:orientation="horizontal" android:layout_width="fill_parent"
+		android:layout_height="@dimen/buttonHeight"
+		android:layout_marginBottom="@dimen/dip">
+
+	</LinearLayout>
+
+</LinearLayout>
