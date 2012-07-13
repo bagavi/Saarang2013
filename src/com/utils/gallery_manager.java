@@ -13,6 +13,8 @@ public class gallery_manager {
 
 	public static final String[] EventCategoryText = { "Fun", "Quiz", "Dance",
 			"Lit", "lit2", "Arts", "Workshop", "Music" };
+	
+	public static final int noEvents = 66;
 
 
 	/*

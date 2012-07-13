@@ -14,6 +14,7 @@ import android.bluetooth.BluetoothClass.Device.Major;
 import android.os.Bundle;
 import java.io.IOException;
 
+import com.adapters.CalendarAdapter;
 import com.database.DatabaseHelper;
 import com.utils.gallery_manager;
 
@@ -48,6 +49,7 @@ public class EventInfoActivity extends Activity {
 	private int mPrize;
 	private TextView prizeMoney;
 	gallery_manager g = new gallery_manager();
+	CalendarAdapter ca;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -62,6 +64,7 @@ public class EventInfoActivity extends Activity {
 
 		// Database part
 		myDbHelper = new DatabaseHelper(this);
+		//ca = new CalendarAdapter(this);
 
 		try {
 
