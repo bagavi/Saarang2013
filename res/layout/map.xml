@@ -31,5 +31,29 @@
     android:src="@drawable/zoomin"
     android:background="#00000000"
     />
+  <ImageButton 
+   	android:id="@+id/testBtn1"
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content"
+	android:src="@drawable/pin"
+	android:scaleType="fitXY"
+	android:background="@null" 
+   />
+  <ImageButton 
+   	android:id="@+id/testBtn2"
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content"
+	android:src="@drawable/pin"
+	android:scaleType="fitXY"
+	android:background="@null" 
+   />
+  <ImageButton 
+   	android:id="@+id/testBtn3"
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content"
+	android:src="@drawable/pin"
+	android:scaleType="fitXY"
+	android:background="@null"
+   />
 
 </RelativeLayout>

@@ -33,11 +33,11 @@ import java.io.InputStream;
  */
 public class GeoToImageConverter {
   private static final String LOG_TAG = "Custom Maps";
-  private GroundOverlay mapData;
-  private int imageWidth;
-  private int imageHeight;
-  private Matrix geoToImageMatrix;
-  private Matrix imageToGeoMatrix;
+  private static GroundOverlay mapData;
+  private static int imageWidth;
+  private static int imageHeight;
+  private static Matrix geoToImageMatrix;
+  private static Matrix imageToGeoMatrix;
   private float metersPerPixel;
 
   public GeoToImageConverter() {
@@ -139,7 +139,7 @@ public class GeoToImageConverter {
    * @return the same float[] that was passed in containing map image x and y
    *         coordinates
    */
-  public float[] convertGeoToImageCoordinates(float[] geoCoords) {
+  public static float[] convertGeoToImageCoordinates(float[] geoCoords) {
     if (mapData == null) {
       return null;
     }
@@ -162,7 +162,7 @@ public class GeoToImageConverter {
    * @return the same float[] that was passed in containing geographic
    *         coordinates. Returns 'null' if the mapping cannot be performed
    */
-  public float[] convertImageToGeoCoordinates(float[] imageCoords) {
+  public static float[] convertImageToGeoCoordinates(float[] imageCoords) {
     if (mapData == null) {
       return null;
     }
@@ -182,7 +182,7 @@ public class GeoToImageConverter {
     return imageCoords;
   }
 
-  private boolean isMercatorMap(GroundOverlay mapData) {
+  private static boolean isMercatorMap(GroundOverlay mapData) {
     return !mapData.hasCornerTiePoints() && Math.abs(mapData.getRotateAngle()) < 1f;
   }
 
@@ -193,14 +193,14 @@ public class GeoToImageConverter {
    * @param geoCoords to be converted
    * @return the same float[] as was passed in, now containing image x, y
    */
-  private float[] mercatorGeoToImageCoordinates(float[] geoCoords) {
+  private static float[] mercatorGeoToImageCoordinates(float[] geoCoords) {
     for (int i = 0; i < geoCoords.length; i += 2) {
       mercatorSingleGeoToImageCoordinates(geoCoords, i);
     }
     return geoCoords;
   }
 
-  private float[] mercatorSingleGeoToImageCoordinates(float[] geoCoords, int indexFirst) {
+  private static float[] mercatorSingleGeoToImageCoordinates(float[] geoCoords, int indexFirst) {
     //Log.i(LOG_TAG, "Using mercator geo to image conversion");
     float lon = geoCoords[indexFirst];
     float lat = latitudeToMercator(geoCoords[indexFirst + 1]);
@@ -212,24 +212,24 @@ public class GeoToImageConverter {
     return geoCoords;
   }
 
-  private float latitudeToMercator(float latitude) {
+  private static float latitudeToMercator(float latitude) {
     latitude = toRadians(latitude);
     return (float) Math.log(Math.tan(latitude) + 1f / Math.cos(latitude));
   }
 
-  private float latitudeFromMercator(float mercator) {
+  private static float latitudeFromMercator(float mercator) {
     mercator = (float) Math.atan(Math.sinh(mercator));
     return toDegrees(mercator);
   }
 
-  private float[] mercatorImageToGeoCoordinates(float[] imageCoords) {
+  private static float[] mercatorImageToGeoCoordinates(float[] imageCoords) {
     for (int i = 0; i < imageCoords.length; i += 2) {
       mercatorSingleImageToGeoCoordinates(imageCoords, i);
     }
     return imageCoords;
   }
 
-  private float[] mercatorSingleImageToGeoCoordinates(float[] imageCoords, int indexFirst) {
+  private static float[] mercatorSingleImageToGeoCoordinates(float[] imageCoords, int indexFirst) {
     float lon = mapData.getWest() +
         (mapData.getEast() - mapData.getWest()) * (imageCoords[indexFirst] / imageWidth);
     float lat0 = latitudeToMercator(mapData.getSouth());
@@ -240,11 +240,11 @@ public class GeoToImageConverter {
     return imageCoords;
   }
 
-  private float toRadians(float degrees) {
+  private static float toRadians(float degrees) {
     return (float) Math.PI * degrees / 180f;
   }
 
-  private float toDegrees(float radians) {
+  private static float toDegrees(float radians) {
     return 180f * radians / (float) Math.PI;
   }
 
@@ -279,7 +279,7 @@ public class GeoToImageConverter {
   }
 
   // Initializes the matrix converting geo coordinates to image coordinates
-  private void initGeoToImageMatrix() {
+  private static void initGeoToImageMatrix() {
     if (!mapData.hasCornerTiePoints()) {
       initGeoToImageMatrixRotated();
     } else {
@@ -287,7 +287,7 @@ public class GeoToImageConverter {
     }
   }
 
-  private void initGeoToImageMatrixRotated() {
+  private static void initGeoToImageMatrixRotated() {
     // TODO: Doesn't work across 180 longitude (gets incorrect longitude
     // to rotate around)
     // Geo coordinates of unrotated map corners
@@ -312,7 +312,7 @@ public class GeoToImageConverter {
     }
   }
 
-  private void initGeoToImageMatrixTiePoints() {
+  private static void initGeoToImageMatrixTiePoints() {
     float[] geoCorners = new float[8];
     float[] corner = mapData.getNorthWestCornerLocation();
     geoCorners[0] = corner[0];

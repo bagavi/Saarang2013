@@ -22,11 +22,21 @@ import org.xmlpull.v1.XmlPullParserException;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
+import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 
 import com.utils.DisplayState;
+import com.utils.GeoToImageConverter;
+import com.utils.Globals;
+import com.utils.ImageToScreenConverter;
 import com.utils.InertiaScroller;
 import com.utils.MapDisplay;
 import com.utils.MapDisplay.MapImageTooLargeException;
@@ -38,9 +48,12 @@ import com.kml.KmzFile;
 
 public class MapActivity extends Activity {
     /** Called when the activity is first created. */
-	  private MapDisplay mapDisplay;
-	  private InertiaScroller inertiaScroller;
-	  
+	private MapDisplay mapDisplay;
+	private InertiaScroller inertiaScroller;
+	private View testView1;
+	private View testView2;
+	private View testView3;
+	private Globals g = Globals.getInstance();
     @Override
     public void onCreate(Bundle savedInstanceState) {
     	super.onCreate(savedInstanceState);
@@ -48,17 +61,21 @@ public class MapActivity extends Activity {
         Log.e("Map", "Activity Started!");
     	mapDisplay = (MapDisplay) findViewById(R.id.mapDisplay);
     	if(mapDisplay==null) Log.e("", "R.id.mapDisplay not found!!!");
+    	testView1 = findViewById(R.id.testBtn1);
+    	testView2 = findViewById(R.id.testBtn2);
+    	testView3 = findViewById(R.id.testBtn3);
     	DisplayState displayState = new DisplayState();
     	mapDisplay.setDisplayState(displayState);
     	inertiaScroller = new InertiaScroller(mapDisplay);
-    	
         ImageButton zoomIn = (ImageButton) findViewById(R.id.zoomIn);
         ImageButton zoomOut = (ImageButton) findViewById(R.id.zoomOut);
-        //Log.e("", "zoomin:=" + zoomIn.toString());
         zoomIn.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				mapDisplay.zoomMap(2.0f);
+				alignButtons(g, testView1);
+				alignButtons(g, testView2);
+				alignButtons(g, testView3);
 			}
 		});
 
@@ -66,9 +83,54 @@ public class MapActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				mapDisplay.zoomMap(0.5f);
+				alignButtons(g, testView1);
+				alignButtons(g, testView2);
+				alignButtons(g, testView3);
 			}
 		});
-
+        
+        mapDisplay.setOnLongClickListener(new View.OnLongClickListener() {
+			@Override
+			public boolean onLongClick(View v) {
+				Log.e("Map", "Clicked " + g.getLocation() + ":D");
+				alignButtons(g, testView1);
+				alignButtons(g, testView2);
+				alignButtons(g, testView3);
+				//testView.performClick(); //Doesn't work for some reason. The context menu doesn't open fully
+				return false;
+			}
+		});
+        
+        testView1.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Log.e("Map", "Pin clicked");
+				registerForContextMenu(testView1);
+				//testView.showContextMenu();
+				openContextMenu(testView1);
+				//unregisterForContextMenu(testView);
+				//VenueAdapter venueAdapter = new VenueAdapter();
+				//setListAdapter(venueAdapter);
+				}
+		});
+    
+        testView2.setOnClickListener(new View.OnClickListener() {
+    			@Override
+    			public void onClick(View v) {
+    				Log.e("Map", "Pin clicked");
+    				registerForContextMenu(testView2);
+    				openContextMenu(testView2);
+    				}
+    		});
+        
+        testView3.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Log.e("Map", "Pin clicked");
+				registerForContextMenu(testView3);
+				openContextMenu(testView3);
+				}
+		});
         // Ensure this file is present in your phone/emulator
         String localPath = "/mnt/sdcard/CustomMaps/iitm1.kmz";
         File localFile = new File(localPath);
@@ -82,7 +144,73 @@ public class MapActivity extends Activity {
 			e.printStackTrace();
 		}
     }
-    
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v,ContextMenuInfo menuInfo) {  
+    	super.onCreateContextMenu(menu, v, menuInfo);
+    	if(v == testView1) {
+    		menu.setHeaderTitle("CLT");  
+        	menu.add(0, v.getId(), 0, "Event 1");  
+        	menu.add(0, v.getId(), 0, "Event 2");    		
+        	menu.add(0, v.getId(), 0, "Close");
+    	}
+    	else if(v == testView2) {
+    		menu.setHeaderTitle("ICSR");  
+        	menu.add(0, v.getId(), 0, "Event 3");  
+        	menu.add(0, v.getId(), 0, "Event 4");    		
+        	menu.add(0, v.getId(), 0, "Close");
+    	}
+    	else if(v == testView3) {
+    		menu.setHeaderTitle("LIB");  
+        	menu.add(0, v.getId(), 0, "Event 5");  
+        	menu.add(0, v.getId(), 0, "Event 6");    		
+        	menu.add(0, v.getId(), 0, "Close");
+    	}
+    }  
+  
+    @Override  
+    public boolean onContextItemSelected(MenuItem item) {  
+        if(item.getTitle()=="Event 1");  
+        else if(item.getTitle()=="Event 2");  
+        else if(item.getTitle()=="Close");
+        else {return false;}  
+    return true;  
+    }  
+  
+    public void alignButtons(Globals g, View v) {
+    	float screen[] = new float[2];
+    	float image[] = new float[2];
+    	float geo[] = new float[2];        
+    	
+    	Log.e("Map", "Aligning buttons");
+    	DisplayMetrics metrics = new DisplayMetrics();
+    	getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        ViewGroup.LayoutParams vg_lp = v.getLayoutParams();
+        RelativeLayout.LayoutParams rl_lp = new RelativeLayout.LayoutParams(vg_lp);
+    	
+        //This copying is required because of the way the convert functions work
+        if(v == testView1) {
+        	geo[0] = g.GC[0];
+        	geo[1] = g.GC[1];
+        }
+        else if(v == testView2) {
+        	geo[0] = g.ICSR[0];
+        	geo[1] = g.ICSR[1];
+        }
+        else if(v == testView3) {
+        	geo[0] = g.LIB[0];
+        	geo[1] = g.LIB[1];
+        }
+    	image = GeoToImageConverter.convertGeoToImageCoordinates(geo);
+    	screen = ImageToScreenConverter.convertImageToScreenCoordinates(image);
+    	rl_lp.height = (int) (30*metrics.density);
+		rl_lp.width = (int) (35*metrics.density);
+    	rl_lp.leftMargin = (int) (screen[0] - 0.25*rl_lp.width);
+		rl_lp.topMargin = (int) (screen[1] - 0.75*rl_lp.height);
+		v.requestLayout();
+        v.setLayoutParams(rl_lp);		
+	}
+
     // Launches map from that file after parsing it
     private void launchSelectMap(File localFile) throws XmlPullParserException, IOException, MapImageTooLargeException  {
     	Log.e("", "launchSelectMap");
@@ -149,5 +277,8 @@ public class MapActivity extends Activity {
 		super.onResume();
 		Log.e("", "Le super resumed");
 		mapDisplay.centerOnMapCenterLocation();
+		alignButtons(g, testView1);
+		alignButtons(g, testView2);
+		alignButtons(g, testView3);
 	}
 }

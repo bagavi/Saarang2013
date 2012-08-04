@@ -17,6 +17,7 @@ package com.utils;
 
 import android.graphics.PointF;
 import android.util.FloatMath;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
 import android.view.View;
@@ -103,6 +104,7 @@ public class InertiaScroller {
       map.setOnTouchListener(null);
     }
     this.map = map;
+    Log.e("Scroller", "Will set touch listener");
     map.setOnTouchListener(touchListener);
   }
 
@@ -183,25 +185,58 @@ public class InertiaScroller {
 
   //------------------------------------------------------------------------------------------
   // OnTouchListener to track user interaction
-
   private View.OnTouchListener touchListener = new View.OnTouchListener() {
     private VelocityTracker velocityTracker = null;
     private float lastMoveX = 0f;
     private float lastMoveY = 0f;
     private float initialDistance = -1f;
     private float initialMapZoom = 1f;
-
+    private int loc = 0;
+    
     @Override
     public boolean onTouch(View v, MotionEvent event) {
+    	Log.e("", "Touch");
       if (useMultitouch) {
         onMultiTouch(v, event);
       } else {
         onSingleTouch(v, event);
       }
+      Log.e("Scroller", "Touch: " + String.valueOf(event.getX()) + " " + String.valueOf(event.getY()));
+      Globals g = Globals.getInstance();
+      loc = getTouchedLocation(event.getX(), event.getY(), g);
+      g.setLocation(loc);  //This global variable is accessed by MapActivity
+      map.performLongClick();
       return true; // indicate event was handled
     }
 
-    public boolean onMultiTouch(View v, MotionEvent event) {
+    private int getTouchedLocation(float x, float y, Globals g) {
+    	float screen[] = new float[2];
+    	float image[] = new float[2];
+    	float geo[] = new float[2];
+    	screen[0] = x;
+    	screen[1] = y;
+    	image = ImageToScreenConverter.convertScreenToImageCoordinates(screen);
+    	Log.e("Scroller", "Image : " + image[0] + " " + image[1]);
+    	geo = GeoToImageConverter.convertImageToGeoCoordinates(image);
+    	Log.e("Scroller", "Geo : " + geo[0] + " " + geo[1]);
+    	
+    	Log.e("Scroller", "Resolution = " + g.resolution);
+    	if( Math.pow((geo[0]-g.GC[0]), 2) + Math.pow((geo[1]-g.GC[1]), 2) < g.resolution ) {
+    		Log.e("Scroller", "GC");
+    		return 1;
+    	}
+    	else if( Math.pow((geo[0]-g.ICSR[0]), 2) + Math.pow((geo[1]-g.ICSR[1]), 2) < g.resolution ) {
+    		Log.e("Scroller", "ICSR");
+    		return 2;
+    	}
+    	else if( Math.pow((geo[0]-g.LIB[0]), 2) + Math.pow((geo[1]-g.LIB[1]), 2) < g.resolution ) {
+    		Log.e("Scroller", "LIB");
+    		return 3;
+    	}
+    	return 0;
+	}
+
+	public boolean onMultiTouch(View v, MotionEvent event) {
       int a = event.getAction() & ME_action_mask;
       // can't use case here because pointer_down variable isn't a constant.
       if (a == MotionEvent.ACTION_DOWN) {
@@ -211,7 +246,8 @@ public class InertiaScroller {
       } else if (a == ME_action_pointer_up) {
         stopSecondTouch(event);
       } else if (a == MotionEvent.ACTION_MOVE) {
-        moveTouch(event);
+        Log.e("Scroller", "Action_Move");
+    	  moveTouch(event);
       } else if (a == ME_action_pointer_down) {
         startSecondTouch(event);
       }
@@ -279,6 +315,7 @@ public class InertiaScroller {
     }
 
     private void moveTouch(MotionEvent evt) {
+    	Log.e("Scroller", "moveTouch");
       if (initialDistance > 0) {
         PointF first = new PointF(evt.getX(), evt.getY());
         PointF second = new PointF();

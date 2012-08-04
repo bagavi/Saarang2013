@@ -16,6 +16,7 @@
 package com.utils;
 
 import android.graphics.Matrix;
+import android.util.Log;
 import android.view.View;
 
 /**
@@ -29,10 +30,10 @@ public class ImageToScreenConverter {
   private int imageWidth = 0;
   private int imageHeight = 0;
   private int imageOrientation = 0;
-  private Matrix imageToScreenMatrix;
-  private Matrix screenToImageMatrix;
+  private static Matrix imageToScreenMatrix;
+  private static Matrix screenToImageMatrix;
   private float zoomLevel = 1;
-
+  private float globalX = 0;
   public ImageToScreenConverter() {
   }
 
@@ -90,13 +91,30 @@ public class ImageToScreenConverter {
         screenView.getWidth() / 2f, screenView.getHeight() / 2f);
   }
 
+  //public float getGlobalX(Matrix matrix) {
+	// return globalX; 
+  //}
+  
   public void zoom(float factor) {
     if (imageToScreenMatrix == null) {
       return;
     }
     zoomLevel *= factor;
+    //float[] values = new float[9];
+    //imageToScreenMatrix.getValues(values);
+    //globalX = values[2];
+    //float globalY = values[5];
+    //float width = values[0]* imageView.getWidth();
+    //float height = values[4] imageView.getHeight();
+    //Log.e("Matrix", "" + imageToScreenMatrix.toString());
+    //Log.e("Matrix", " " + globalX + globalY);
     imageToScreenMatrix.postScale(factor, factor,
         screenView.getWidth() / 2f, screenView.getHeight() / 2f);
+    //Log.e("Matrix", "" + imageToScreenMatrix.toString());
+    //imageToScreenMatrix.getValues(values);
+    //globalX = values[2];
+    //globalY = values[5];
+    //Log.e("Matrix", " " + globalX + globalY);
   }
 
   /**
@@ -109,7 +127,8 @@ public class ImageToScreenConverter {
    * @return 'true' if translation wasn't limited to keep image on screen
    */
   public boolean translate(float dx, float dy) {
-    if (imageToScreenMatrix == null) {
+    Log.e("Matrix", "Panning");
+	  if (imageToScreenMatrix == null) {
       return true;
     }
     imageToScreenMatrix.postTranslate(dx, dy);
@@ -140,7 +159,7 @@ public class ImageToScreenConverter {
     return result;
   }
 
-  public float[] convertImageToScreenCoordinates(float[] imageCoords) {
+  public static float[] convertImageToScreenCoordinates(float[] imageCoords) {
     if (imageToScreenMatrix == null) {
       return null;
     }
@@ -148,7 +167,7 @@ public class ImageToScreenConverter {
     return imageCoords;
   }
 
-  public float[] convertScreenToImageCoordinates(float[] screenCoords) {
+  public static float[] convertScreenToImageCoordinates(float[] screenCoords) {
     if (imageToScreenMatrix == null) {
       return null;
     }
