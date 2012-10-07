@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.MergeCursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
@@ -24,7 +25,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	private static String DB_NAME = "event_detail.db";
 	private static String TAG = "Databasehelper";
 	
-	public static final String TABLE_NAME = "Event_Details";
+	public static final String TABLE_NAME = "event_details";
 	public static final String KEY_EVENT_ID = "_id";
 
 	public static final String GROUP_EVENT_ID = "group_id";
@@ -39,6 +40,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 	public static final String INTRODUCTION = "introduction";
 	public static final int INTRODUCTION_COLUMN = 4;
+
+	public static final String LOCATION = "location";
+	public static final int LOCATION_COLUMN = 5;
+
+	public static final String TIME = "time";
+	public static final int TIME_COLUMN = 6;
 
 	/*
 	 * Table Two details(Coordinators)
@@ -68,7 +75,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	}
 
 	public DatabaseHelper(Context context) {
-
 		super(context, DB_NAME, null, 1);
 		this.myContext = context;
 	}
@@ -193,7 +199,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		Cursor mCursor =
 
 		myDatabase.query(true, TABLE_NAME, new String[] { KEY_EVENT_ID, NAME,
-				DESCRIPTION, INTRODUCTION}, KEY_EVENT_ID + "="
+				DESCRIPTION, INTRODUCTION, LOCATION}, KEY_EVENT_ID + "="
 				+ eventId, null, null, null, null, null);
 		if (mCursor != null) {
 			mCursor.moveToFirst();
@@ -212,7 +218,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		Cursor mCursor =
 
 		myDatabase.query(TABLE_NAME, new String[] { KEY_EVENT_ID, NAME,
-				DESCRIPTION }, KEY_EVENT_ID + "= ? AND " + NAME + "= ?",
+				DESCRIPTION, LOCATION }, KEY_EVENT_ID + "= ? AND " + NAME + "= ?",
 				new String[] { id.toString(), title }, null, null, null);
 		if (mCursor != null) {
 			mCursor.moveToFirst();
@@ -221,6 +227,124 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 	}
 
+	/*
+	 * This is API which gives us the event details, sorted in ascending order of TIME, if asked by location
+	 */
+	public Cursor fetchDescription(String loc)
+			throws SQLException {
+		Cursor mCursor =
+				myDatabase.query(TABLE_NAME, new String[] {KEY_EVENT_ID, NAME, TIME}, "location= ?",
+						new String[] {loc}, null, null, TIME);
+//		Log.e("DBHelper", "Check");
+		if (mCursor != null) {
+			mCursor.moveToFirst();
+		}
+		return mCursor;
+	}
+
+	// Help le time indices (int[] ints) to decrement (if type is true) or increment by an hour
+	private int[] next(int[] ints, boolean type) {
+		if (type) {
+			if (--ints[1] == -1) {
+				if (ints[0] != 0) {
+					ints[0]--;
+					ints[1] = 23;
+				} else ints[0] = 0;
+			}
+			return ints;
+		}
+		if (++ints[1] == 24) {
+			if (ints[0] != 4) {
+				ints[0]++;
+				ints[1] = 0;
+			} else ints[0] = 4;
+		}
+		return ints;
+	}
+	
+	// Gen join int[] to get string. Caution works only on length three.
+	private String join(int[] ints) {
+		String s = "";
+		for (int i = 0; i < 3; i++) {
+			s = s.concat("" + ints[i] + " ");
+		}
+		return s;
+	}
+
+	/*
+	 * This is API which gives us the event details, showing 2 of them near time at location
+	 * This is fast when frequency of events at loc is high around time
+	 * Will not work if there is no event within +/- (some) hours of time
+	 */
+	public MergeCursor fetchDescription(String loc, int[] time)
+			throws SQLException {
+		Log.e("DBHelper", "Time now : " + join(time));		
+		
+		int[] lowTime = new int[3];
+		lowTime = time.clone();
+		int[] hiTime = new int[3];
+		hiTime = time.clone();
+
+		Cursor[] cursor = new Cursor[2];		
+		boolean foundLow = false, foundHi = false;
+		int lowCount = 1, hiCount = 1;
+		
+		while (!foundLow || !foundHi) {
+			if (!foundLow) {
+				lowTime = next(lowTime, true);
+				if (lowCount++ >= 18) 
+					break;
+				cursor[0] =	myDatabase.query(TABLE_NAME, new String[] {KEY_EVENT_ID, NAME, TIME}, "location= ? AND time BETWEEN ? AND ?",
+						new String[] {loc, join(lowTime),  join(time)}, null, null, TIME);
+//				Log.e("DBHelper", "" + join(time)  + " " + join(lowTime));
+				if (cursor[0] != null) {
+//					Log.e("DBHelper", "Check " + cursor[0].getColumnCount() + " " + cursor[0].getCount());
+					cursor[0].moveToFirst();
+					if (cursor[0].getCount() > 0) {
+						foundLow = true;
+					}
+				}
+			}
+			if(!foundHi) {
+				hiTime = next(hiTime, false);
+				if (hiCount++ >= 24)
+					break;
+				cursor[1] =	myDatabase.query(TABLE_NAME, new String[] {KEY_EVENT_ID, NAME, TIME}, "location= ? AND time BETWEEN ? AND ?",
+								new String[] {loc, join(time), join(hiTime)}, null, null, TIME);
+				if (cursor[1] != null) {
+					cursor[1].moveToFirst();
+					if (cursor[1].getCount() > 0) {
+						foundHi = true;
+					}
+				}
+			}
+		}
+//		Log.e("DBHelper", "Found! " + foundHi + foundLow);
+		if (!foundHi && foundLow) {
+			MergeCursor mCursors = new MergeCursor(new Cursor[] {cursor[0]});
+			if (mCursors != null)
+				mCursors.moveToFirst();
+			return mCursors;
+		}
+		if (!foundLow && foundHi) {
+			MergeCursor mCursors = new MergeCursor(new Cursor[] {cursor[0]});
+			if (mCursors != null)
+				mCursors.moveToFirst();
+			return mCursors;
+		}
+		if (foundLow && foundHi) { 
+			MergeCursor mCursors = new MergeCursor(cursor);
+			if (mCursors != null)
+				mCursors.moveToFirst();
+//			Log.e("DBHelper", "" + mCursors.getColumnCount() + " " + mCursors.getCount());
+//			Log.e("DBHelper", " " + mCursors.getString(0) + " " + mCursors.getString(1) + " " + mCursors.getString(2));
+//			mCursors.moveToNext();
+//			Log.e("DBHelper", " " + mCursors.getString(0) + " " + mCursors.getString(1) + " " + mCursors.getString(2));
+			return mCursors;
+		}
+		return null;
+	}
+	
 	public Cursor fetchCordDetails(long eventId) throws SQLException {
 		Cursor mCursor;
 		if (eventId > 0) {

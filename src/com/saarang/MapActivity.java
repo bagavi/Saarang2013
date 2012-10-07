@@ -6,14 +6,16 @@ package com.saarang;
  * it uses classes from the packages com.utils and com.kml 
  * to help with handling the png, panning etc.
  * 
- *  TODO: Add clickable placemarks in kml file and parse them.
  */
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.Iterator;
+import java.util.TimeZone;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
@@ -21,6 +23,8 @@ import java.util.zip.ZipFile;
 import org.xmlpull.v1.XmlPullParserException;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -40,6 +44,8 @@ import com.utils.ImageToScreenConverter;
 import com.utils.InertiaScroller;
 import com.utils.MapDisplay;
 import com.utils.MapDisplay.MapImageTooLargeException;
+import com.adapters.EventAdapter;
+import com.database.DatabaseHelper;
 import com.kml.GroundOverlay;
 import com.kml.KmlFile;
 import com.kml.KmlInfo;
@@ -48,27 +54,46 @@ import com.kml.KmzFile;
 
 public class MapActivity extends Activity {
     /** Called when the activity is first created. */
+	private DatabaseHelper myDbHelper;
+	private Cursor mCursor;
 	private MapDisplay mapDisplay;
 	private InertiaScroller inertiaScroller;
 	private View testView1;
 	private View testView2;
 	private View testView3;
 	private Globals g = Globals.getInstance();
+	private MenuItem[] menuItem;
+	private int[] eventID;
+	private Cursor mCursor0;
+	
     @Override
     public void onCreate(Bundle savedInstanceState) {
     	super.onCreate(savedInstanceState);
     	setContentView(R.layout.map);
-        Log.e("Map", "Activity Started!");
+    		Log.e("Map", "Activity Started!");
+    	
     	mapDisplay = (MapDisplay) findViewById(R.id.mapDisplay);
-    	if(mapDisplay==null) Log.e("", "R.id.mapDisplay not found!!!");
+    	if(mapDisplay==null) 
+    		Log.e("", "R.id.mapDisplay not found!!!");
     	testView1 = findViewById(R.id.testBtn1);
     	testView2 = findViewById(R.id.testBtn2);
     	testView3 = findViewById(R.id.testBtn3);
+    	
     	DisplayState displayState = new DisplayState();
     	mapDisplay.setDisplayState(displayState);
     	inertiaScroller = new InertiaScroller(mapDisplay);
-        ImageButton zoomIn = (ImageButton) findViewById(R.id.zoomIn);
+    	
+    	myDbHelper = new DatabaseHelper(this);
+    	try {
+			Log.e("Map", "DBHelper Created");
+			myDbHelper.createDataBase();
+			myDbHelper.openDataBase();
+		} catch (IOException ioe) {}
+
+    	
+    	ImageButton zoomIn = (ImageButton) findViewById(R.id.zoomIn);
         ImageButton zoomOut = (ImageButton) findViewById(R.id.zoomOut);
+        
         zoomIn.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -131,6 +156,7 @@ public class MapActivity extends Activity {
 				openContextMenu(testView3);
 				}
 		});
+        
         // Ensure this file is present in your phone/emulator
         String localPath = "/mnt/sdcard/CustomMaps/iitm1.kmz";
         File localFile = new File(localPath);
@@ -144,37 +170,142 @@ public class MapActivity extends Activity {
 			e.printStackTrace();
 		}
     }
+    
+    // Caution: works only with length three
+    private int[] tokenize(String now) {
+    	String[] temp = new String[3];
+		temp = now.split(" ");
+		
+		int[] timeInfo = new int[3];
+		for (int i = 0; i < 3; i++)
+			timeInfo[i] = Integer.parseInt(temp[i]);
+		
+		return timeInfo;
+    }
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v,ContextMenuInfo menuInfo) {  
     	super.onCreateContextMenu(menu, v, menuInfo);
+    	Calendar c = Calendar.getInstance(TimeZone.getDefault());
+//		String now = "" + c.getTime().getDate() + " " + c.getTime().getHours() + "" + c.getTime().getMinutes();
+		String now = "1" + " " + c.getTime().getHours() + " " + c.getTime().getMinutes();
+		int[] timeInfo = new int[3];
+		timeInfo = tokenize(now);
+		
+		// Assuming max 10 locations
+		menuItem = new MenuItem[30];
+		eventID = new int[20];
+		Arrays.fill(eventID, -1);
+		
+		// The first two arguements of menu.add are used to encode stuff, which gets decoded in onContextI....
+		int row;
     	if(v == testView1) {
-    		menu.setHeaderTitle("CLT");  
-        	menu.add(0, v.getId(), 0, "Event 1");  
-        	menu.add(0, v.getId(), 0, "Event 2");    		
-        	menu.add(0, v.getId(), 0, "Close");
+    		menu.setHeaderTitle("GC");
+    		mCursor0 = myDbHelper.fetchDescription("GC", timeInfo);
+    		if (mCursor0 == null)
+    			Log.e("Map", "Whoops!");
+//    		Log.e("Map", now + " " + mCursor0.getColumnCount() + " " + mCursor0.getCount());
+    		String event;
+    		int[] eventTime = new int[3];
+    		for (row = 0; row < mCursor0.getCount(); row++) {
+    			eventID[row] = mCursor0.getInt(0);
+    			event = mCursor0.getString(1);
+    			eventTime = tokenize(mCursor0.getString(2));
+    			if (eventTime[0] > timeInfo[0]) {
+    				if (eventTime[2] == 0)
+    					menuItem[row] = menu.add(row, v.getId(), 0, event + " 2mrw at " + eventTime[1] + ":00");
+    				else menuItem[row] = menu.add(row, v.getId(), 0, event + " 2mrw at " + eventTime[1] + ":" + eventTime[2]);
+    			} else if(eventTime[0] < timeInfo[0]);
+    			else {
+    				if (eventTime[2] == 0)
+    					menuItem[row] = menu.add(row, v.getId(), 0, event + " at " + eventTime[1] + ":00");
+    				else menuItem[row] = menu.add(row, v.getId(), 0, event + " at " + eventTime[1] + ":" + eventTime[2]);
+    			}
+    			mCursor0.moveToNext();
+    		}
+    		menuItem[2] = menu.add(row, v.getId(), 0, "View all events at GC");
     	}
     	else if(v == testView2) {
-    		menu.setHeaderTitle("ICSR");  
-        	menu.add(0, v.getId(), 0, "Event 3");  
-        	menu.add(0, v.getId(), 0, "Event 4");    		
-        	menu.add(0, v.getId(), 0, "Close");
+    		menu.setHeaderTitle("ICSR");
+    		mCursor0 = myDbHelper.fetchDescription("ICSR", timeInfo);
+    		if (mCursor0 == null)
+    			Log.e("Map", "Whoops!");
+//    		Log.e("Map", now + " " + mCursor0.getColumnCount() + " " + mCursor0.getCount());
+    		String event;
+    		int[] eventTime = new int[3];
+    		for (row = 0; row < mCursor0.getCount(); row++) {
+    			eventID[2 + row] = mCursor0.getInt(0);
+    			event = mCursor0.getString(1);
+    			eventTime = tokenize(mCursor0.getString(2));
+    			if (eventTime[0] > timeInfo[0]) {
+    				if (eventTime[2] == 0)
+    					menuItem[3 + row] = menu.add(row, v.getId(), 0, event + " 2mrw at " + eventTime[1] + ":00");
+    				else menuItem[3 + row] = menu.add(row, v.getId(), 0, event + " 2mrw at " + eventTime[1] + ":" + eventTime[2]);
+    			} else if(eventTime[0] < timeInfo[0]);
+    			else {
+    				if (eventTime[2] == 0)
+    					menuItem[3 + row] = menu.add(row, v.getId(), 0, event + " at " + eventTime[1] + ":00");
+    				else menuItem[3 + row] = menu.add(row, v.getId(), 0, event + " at " + eventTime[1] + ":" + eventTime[2]);
+    			}
+    			mCursor0.moveToNext();
+    		}
+
+			menuItem[3 + 2] = menu.add(row, v.getId(), 0, "View all events at ICSR");
     	}
     	else if(v == testView3) {
     		menu.setHeaderTitle("LIB");  
-        	menu.add(0, v.getId(), 0, "Event 5");  
-        	menu.add(0, v.getId(), 0, "Event 6");    		
-        	menu.add(0, v.getId(), 0, "Close");
+    		mCursor0 = myDbHelper.fetchDescription("LIB", timeInfo);
+    		if (mCursor0 == null)
+    			Log.e("Map", "Whoops!");
+//    		Log.e("Map", now + " " + mCursor0.getColumnCount() + " " + mCursor0.getCount());
+    		String event;
+    		int[] eventTime = new int[3];
+    		for (row = 0; row < mCursor0.getCount(); row++) {
+    			eventID[4 + row] = mCursor0.getInt(0);
+    			event = mCursor0.getString(1);
+    			eventTime = tokenize(mCursor0.getString(2));
+    			if (eventTime[0] > timeInfo[0]) {
+    				if (eventTime[2] == 0)
+    					menuItem[6 + row] = menu.add(row, v.getId(), 0, event + " 2mrw at " + eventTime[1] + ":00");
+    				else menuItem[6 + row] = menu.add(row, v.getId(), 0, event + " 2mrw at " + eventTime[1] + ":" + eventTime[2]);
+    			} else if(eventTime[0] < timeInfo[0]);
+    			else {
+    				if (eventTime[2] == 0)
+    					menuItem[6 + row] = menu.add(row, v.getId(), 0, event + " at " + eventTime[1] + ":00");
+    				else menuItem[6 + row] = menu.add(row, v.getId(), 0, event + " at " + eventTime[1] + ":" + eventTime[2]);
+    			}
+    			mCursor0.moveToNext();
+    		}
+        	menuItem[6 + 2] = menu.add(row, v.getId(), 0, "View all events at LIB");
     	}
     }  
   
     @Override  
-    public boolean onContextItemSelected(MenuItem item) {  
-        if(item.getTitle()=="Event 1");  
-        else if(item.getTitle()=="Event 2");  
-        else if(item.getTitle()=="Close");
-        else {return false;}  
-    return true;  
+    public boolean onContextItemSelected(MenuItem item) {
+    	int id = item.getItemId();
+//    	Log.e("Map", "id = " + id + " grpid = " + item.getGroupId());
+    	for (int i = 0; i < 30; i++) {
+    		if (menuItem[i] == null)
+    			continue;
+    		if (menuItem[i].getItemId() == id && menuItem[i].getGroupId() == item.getGroupId()) {
+    			Log.e("Map", "Peace");
+    			if ((i + 1)%3 == 0) {
+    					switch (i + 1) {
+						case 3: Log.e("Map", "Go to GC");
+								break;
+						case 6: Log.e("Map", "Go to ICSR");
+								break;
+						case 9: Log.e("Map", "Go to LIB");
+								break;
+						default: break;
+    					}
+    					break;
+    			}
+    			Log.e("Map", "event_id = " + eventID[(int) Math.ceil(i*(2.0)/3)]);
+    			break;
+    		}
+    	}
+    	return true;  
     }  
   
     public void alignButtons(Globals g, View v) {
