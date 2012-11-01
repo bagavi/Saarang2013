@@ -9,7 +9,6 @@ package com.saarang;
  */
 
 import com.saarang.R;
-import com.utils.ProshowGallery;
 
 import java.io.*;
 import android.app.Activity;
@@ -57,7 +56,7 @@ public class SaarangActivity extends Activity {
 			Intent intent;
 			switch (id) {
 			case R.id.ProShow:
-				intent = new Intent(SaarangActivity.this, ProshowGallery.class);
+				intent = new Intent(SaarangActivity.this, ProShowActivity.class);
 				startActivity(intent);
 
 				break;

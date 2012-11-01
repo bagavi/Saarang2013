@@ -24,7 +24,7 @@
             </intent-filter>
             
         </activity>
-        <activity android:name=".ProshowGallery"
+        <activity android:name=".ProShowActivity"
                   android:label="@string/app_name">
             
             <intent-filter>
