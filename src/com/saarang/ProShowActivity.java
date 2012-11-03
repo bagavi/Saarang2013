@@ -106,17 +106,25 @@ class TouchSurfaceView extends GLSurfaceView {
 		private ProShowCube leCube;
 		//    	private float angle = 0;
 		//    	private float defaultSpeed = -1f;
-		public float mAngleX;
-		public float mAngleY;
+		public float mAngleX = -10.0f;
+		public float mAngleY = 10.0f;
 		//        private int[] mProjectionMatrix = new int[16];
 		//		public int[] viewPort = new int[4];
 
+		private float[] lightAmbient = {0.5f, 0.5f, 0.5f, 1.0f};
+		private float[] lightDiffuse = {1.0f, 1.0f, 1.0f, 1.0f};
+		private float[] lightPosition = {0.0f, 0.0f, 2.0f, 1.0f};
+		
 		public ProShowCubeRenderer(Context context) {
 			leCube = new ProShowCube(context);
+			Log.e("ProShow", "leCube");
 		}
 
 		public void onDrawFrame(GL10 gl) {
 			gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
+			
+			gl.glEnable(GL10.GL_LIGHTING);
+			
 			parseAngles();
 
 			gl.glLoadIdentity();
@@ -129,6 +137,7 @@ class TouchSurfaceView extends GLSurfaceView {
 			gl.glDisable(GL10.GL_DEPTH_TEST);
 			leCube.draw(gl);
 
+			Log.e("ProShow", "le Cube finished drawing");
 //			Log.e("ProShow", "" + mAngleX + " " + mAngleY);
 			
 			//			MatrixGrabber matrixGrabber = new MatrixGrabber();
@@ -172,6 +181,7 @@ class TouchSurfaceView extends GLSurfaceView {
 
 		public void onSurfaceChanged(GL10 gl, int width, int height) {
 			gl.glViewport(0, 0, width, height);
+			Log.e("ProShow", "surface changed");
 			//			viewPort[0] = 0;
 			//			viewPort[1] = 0;
 			//			viewPort[2] = width;
@@ -196,6 +206,14 @@ class TouchSurfaceView extends GLSurfaceView {
 
 			//			gl.glColor4f(1.0f, 1.0f, 1.0f, 0.95f);
 			//			gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
+			
+			gl.glLightfv(GL10.GL_LIGHT1, GL10.GL_AMBIENT, lightAmbient, 0);
+			gl.glLightfv(GL10.GL_LIGHT1, GL10.GL_DIFFUSE, lightDiffuse, 0);
+			gl.glLightfv(GL10.GL_LIGHT1, GL10.GL_POSITION, lightPosition, 0);
+			gl.glEnable(GL10.GL_LIGHT1);
+			gl.glEnable(GL10.GL_LIGHT0);
+			
+			Log.e("ProShow", "Surface created with texture and lighting");
 		}
 	}
 }
