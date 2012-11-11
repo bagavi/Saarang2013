@@ -129,7 +129,7 @@ class TouchSurfaceView extends GLSurfaceView {
 
 			gl.glLoadIdentity();
 			//			gl.glTranslatef(0.0f, -2.0f, -6.0f);
-			gl.glTranslatef(0.0f, 0.0f, -6.0f);
+			gl.glTranslatef(0.0f, 0.0f, -0.5f);
 			gl.glRotatef(mAngleX, 0, 1, 0);
 			gl.glRotatef(mAngleY, 1, 0, 0);
 			gl.glScalef(0.65f, 0.65f, 0.65f);
@@ -201,8 +201,9 @@ class TouchSurfaceView extends GLSurfaceView {
 			gl.glShadeModel(GL10.GL_SMOOTH);
 			gl.glDisable(GL10.GL_DITHER);
 			gl.glEnable(GL10.GL_CULL_FACE);
-			leCube.loadTexture(gl);
 			gl.glEnable(GL10.GL_TEXTURE_2D);
+			leCube.loadTexture(gl);
+			
 
 			//			gl.glColor4f(1.0f, 1.0f, 1.0f, 0.95f);
 			//			gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);

@@ -63,6 +63,28 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	
 	public static final String COORD_EVENT_ID = "event_id";
 	public static final int COORD_EVENT_ID_COLUMN = 3;
+
+	// Table for hotels
+	public static final String HOTEL_TABLE_NAME = "hotels";
+	
+	public static final int HOTEL_NAME_COLUMN = 0;
+	public static final String HOTEL_NAME = "Name";
+	public static final int HOTEL_ADDRESS_COLUMN = 1;
+	public static final String HOTEL_ADDRESS = "Address";
+	public static final int HOTEL_PHONE_COLUMN = 2;
+	public static final String HOTEL_PHONE = "Phone";
+	public static final int HOTEL_DISTANCE_COLUMN = 3;
+	public static final String HOTEL_DISTANCE = "Distance";
+	public static final int HOTEL_BUSES_COLUMN = 4;
+	public static final String HOTEL_BUSES = "Buses";
+	public static final int HOTEL_SINGLE_NON_AC_COLUMN = 5;
+	public static final String HOTEL_SINGLE_NON_AC = "Single Room Non AC";
+	public static final int HOTEL_SINGLE_AC_COLUMN = 6;
+	public static final String HOTEL_SINGLE_AC = "Single Room AC";
+	public static final int HOTEL_DOUBLE_NON_AC_COLUMN = 7;
+	public static final String HOTEL_DOUBLE_NON_AC = "Double Room Non AC";
+	public static final int HOTEL_DOUBLE_AC_COLUMN = 8;
+	public static final String HOTEL_DOUBLE_AC = "Double Room AC";
 	
 	private SQLiteDatabase myDatabase;
 	private final Context myContext;
@@ -396,4 +418,31 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		return mCursor;
 	}
 
+
+	// This sorts hotels by distance. If byDistance==0 then it sorts by name (frankly, this is useless. What's in a name?)
+	public Cursor fetchHotels(boolean byDistance) throws SQLException {
+		Cursor mCursor;
+		if (byDistance) 
+			mCursor = myDatabase.query(HOTEL_TABLE_NAME, new String[] {HOTEL_NAME, HOTEL_DISTANCE}, null,
+						null, null, null, HOTEL_DISTANCE);
+		else
+			mCursor = myDatabase.query(HOTEL_TABLE_NAME, new String[] {HOTEL_NAME, HOTEL_DISTANCE}, null,
+					null, null, null, HOTEL_NAME);
+//		Log.e("DBHelper", "Check");
+		if (mCursor != null) {
+			mCursor.moveToFirst();
+		}
+		return mCursor;
+	}
+	
+	// I was too lazy to create DB with id. String search isn't that expensive.
+	public Cursor fetchHotels(String hotelName) throws SQLException {
+		Cursor mCursor;
+		mCursor = myDatabase.query(HOTEL_TABLE_NAME, null, "Name= ?", new String[] {hotelName}, null, null, null);
+		if (mCursor != null) {
+			mCursor.moveToFirst();
+		}
+		return mCursor;
+	}
 }
+	

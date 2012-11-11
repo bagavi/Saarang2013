@@ -24,16 +24,24 @@ public class ProShowCube {
 	public float[] normalX = new float[nFaces];
 	public float[] normalY = new float[nFaces];
 
-	// Please ensure the images are of same dimensions and the last two are rotated 90 degree
-	// Or just give equal sized squares
+//	private int[] imgIDs = {
+//			R.drawable.gallery_photo_1,
+//			R.drawable.gallery_photo_2, 
+//			R.drawable.gallery_photo_3, 
+//			R.drawable.gallery_photo_4, 
+//			R.drawable.gallery_photo_5,
+//			R.drawable.gallery_photo_6
+//	};
+
+	// Please ensure the images are square with pixel count in powers of two
 	private int[] imgIDs = {
-			R.drawable.gallery_photo_1,
-			R.drawable.gallery_photo_2, 
-			R.drawable.gallery_photo_3, 
-			R.drawable.gallery_photo_4, 
-			R.drawable.gallery_photo_5,
-			R.drawable.gallery_photo_6
-	};
+			R.drawable.red,
+			R.drawable.blue, 
+			R.drawable.yell, 
+			R.drawable.red,
+			R.drawable.blue, 
+			R.drawable.yell,
+};
 
 	private int[] txtrIDs = new int[nFaces];
 	private Bitmap[] bitmap = new Bitmap[nFaces];
@@ -132,7 +140,8 @@ public class ProShowCube {
 		// top
 		gl.glPushMatrix();
 		gl.glRotatef(270.0f, 1f, 0f, 0f);
-		gl.glTranslatef(0f, 0f, cubeHalfSize*0.75f);
+//		gl.glTranslatef(0f, 0f, cubeHalfSize*0.75f);
+		gl.glTranslatef(0f, 0f, cubeHalfSize);
 		gl.glBindTexture(GL10.GL_TEXTURE_2D, txtrIDs[4]);
 		gl.glDrawArrays(GL10.GL_TRIANGLE_STRIP, 16, 4);
 		gl.glPopMatrix();
@@ -140,7 +149,8 @@ public class ProShowCube {
 		// bottom
 		gl.glPushMatrix();
 		gl.glRotatef(90.0f, 1f, 0f, 0f);
-		gl.glTranslatef(0f, 0f, cubeHalfSize*0.75f);
+//		gl.glTranslatef(0f, 0f, cubeHalfSize*0.75f);
+		gl.glTranslatef(0f, 0f, cubeHalfSize);
 		gl.glBindTexture(GL10.GL_TEXTURE_2D, txtrIDs[5]);
 		gl.glDrawArrays(GL10.GL_TRIANGLE_STRIP, 20, 4);
 		gl.glPopMatrix();
@@ -154,9 +164,10 @@ public class ProShowCube {
 
 		for (int face = 0; face < nFaces; face++) {
 			gl.glBindTexture(GL10.GL_TEXTURE_2D, txtrIDs[face]);
-			//	         gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MAG_FILTER, GL10.GL_NEAREST);
-			//	         gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MIN_FILTER, GL10.GL_NEAREST);
-
+				         gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MAG_FILTER, GL10.GL_NEAREST);
+				         gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MIN_FILTER, GL10.GL_NEAREST);
+				         gl.glTexEnvx(GL10.GL_TEXTURE_ENV, GL10.GL_TEXTURE_ENV_MODE, GL10.GL_REPLACE); // Stackoverflow rocks
+		Log.e("ProShowCube", "LoadTexture");
 			// Build Texture from loaded bitmap for the currently-bind texture ID
 			GLUtils.texImage2D(GL10.GL_TEXTURE_2D, 0, bitmap[face], 0);
 			bitmap[face].recycle();

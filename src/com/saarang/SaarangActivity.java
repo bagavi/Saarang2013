@@ -87,7 +87,8 @@ public class SaarangActivity extends Activity {
 				break;
 
 			case R.id.Sponsors:
-				intent = new Intent(SaarangActivity.this, SponsActivity.class);
+//				intent = new Intent(SaarangActivity.this, SponsActivity.class);
+				intent = new Intent(SaarangActivity.this, HospiActivity.class);
 				startActivity(intent);
 				break;
 
