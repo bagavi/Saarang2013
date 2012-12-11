@@ -16,7 +16,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 		android:layout_alignParentRight="true"
-		android:maxWidth="100dip"
+		android:maxWidth="150dip"
         android:textSize="15dp" />
     
 </RelativeLayout>
