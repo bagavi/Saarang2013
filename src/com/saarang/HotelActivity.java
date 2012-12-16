@@ -34,7 +34,7 @@ public class HotelActivity extends Activity {
 		HOTEL_NAME = extras.getCharSequence("HOTEL_NAME").toString();
 		Log.e("Hotel", "" + HOTEL_NAME);
 		
-		setContentView(R.layout.hospi_main);
+		setContentView(R.layout.hotel_main);
 
 		List<HashMap<String, String>> hList = new ArrayList<HashMap<String, String>>();
 		
@@ -50,10 +50,12 @@ public class HotelActivity extends Activity {
 			Log.e("Hotel", "Please sleep at GC");
 
 		Log.e("Hotel", "" + mCursor.getColumnCount() + " " + mCursor.getCount());
-//		Log.e("Hotel", "" + mCursor.getString(0));
 		for (int col = 0; col < mCursor.getColumnCount(); col++) {
-//			Log.e("Hotel", "" + col);
+		
 			String s = mCursor.getString(col);
+			if (s == null)
+				continue;
+		
 			HashMap<String, String> hMap = new HashMap<String, String>();
 			
 			switch (col) {
@@ -61,23 +63,19 @@ public class HotelActivity extends Activity {
 					break;
 			case 1: hMap.put("key", "Address");
 					break;
-			case 2: hMap.put("key", "Phone\n(Click to Call)");
+			case 2: hMap.put("key", "Distance");
 					break;
-			case 3: hMap.put("key", "Distance");
+			case 3: hMap.put("key", "Phone\n(Click to Call)");
 					break;
-			case 4: hMap.put("key", "Bus");
+			case 4: hMap.put("key", "Phone\n(Click to Call)");
 					break;
-			case 5: hMap.put("key", "Cost of Single Room Non-AC");
+			case 5: hMap.put("key", "Phone\n(Click to Call)");
 					break;
-			case 6: hMap.put("key", "Cost of Single Room AC");
-					break;
-			case 7: hMap.put("key", "Cost of Double Room Non-AC");
-					break;
-			case 8: hMap.put("key", "Cost of Double Room AC");
+			case 6: hMap.put("key", "Locality");
 					break;
 			}
 			
-			if (col==3)
+			if (col==2)
 				hMap.put("value", "" + s + "km");
 			else
 				hMap.put("value", s);

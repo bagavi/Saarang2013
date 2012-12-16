@@ -75,16 +75,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public static final String HOTEL_PHONE = "Phone";
 	public static final int HOTEL_DISTANCE_COLUMN = 3;
 	public static final String HOTEL_DISTANCE = "Distance";
-	public static final int HOTEL_BUSES_COLUMN = 4;
-	public static final String HOTEL_BUSES = "Buses";
-	public static final int HOTEL_SINGLE_NON_AC_COLUMN = 5;
-	public static final String HOTEL_SINGLE_NON_AC = "Single Room Non AC";
-	public static final int HOTEL_SINGLE_AC_COLUMN = 6;
-	public static final String HOTEL_SINGLE_AC = "Single Room AC";
-	public static final int HOTEL_DOUBLE_NON_AC_COLUMN = 7;
-	public static final String HOTEL_DOUBLE_NON_AC = "Double Room Non AC";
-	public static final int HOTEL_DOUBLE_AC_COLUMN = 8;
-	public static final String HOTEL_DOUBLE_AC = "Double Room AC";
+	public static final int HOTEL_PHONE1_COLUMN = 4;
+	public static final String HOTEL_PHONE1 = "Phone 1";
+	public static final int HOTEL_PHONE2_COLUMN = 5;
+	public static final String HOTEL_PHONE2 = "Phone 2";
+	public static final int HOTEL_PHONE3_COLUMN = 6;
+	public static final String HOTEL_PHONE3 = "Phone 3";
+	public static final int HOTEL_LOCALITY_COLUMN = 7;
+	public static final String HOTEL_LOCALITY = "Locality";
 	
 	private SQLiteDatabase myDatabase;
 	private final Context myContext;
@@ -419,15 +417,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	}
 
 
-	// This sorts hotels by distance. If byDistance==0 then it sorts by name (frankly, this is useless. What's in a name?)
+	// This sorts hotels by distance. If byDistance==0 then it sorts by locality
 	public Cursor fetchHotels(boolean byDistance) throws SQLException {
 		Cursor mCursor;
 		if (byDistance) 
 			mCursor = myDatabase.query(HOTEL_TABLE_NAME, new String[] {HOTEL_NAME, HOTEL_DISTANCE}, null,
 						null, null, null, HOTEL_DISTANCE);
 		else
-			mCursor = myDatabase.query(HOTEL_TABLE_NAME, new String[] {HOTEL_NAME, HOTEL_DISTANCE}, null,
-					null, null, null, HOTEL_NAME);
+			mCursor = myDatabase.query(HOTEL_TABLE_NAME, new String[] {HOTEL_NAME, HOTEL_LOCALITY}, null,
+					null, null, null, "" + HOTEL_LOCALITY + " DESC");
 //		Log.e("DBHelper", "Check");
 		if (mCursor != null) {
 			mCursor.moveToFirst();
