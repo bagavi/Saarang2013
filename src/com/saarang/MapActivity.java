@@ -2,13 +2,15 @@ package com.saarang;
 
 /**
  * This is the Map Activity, duh.  
- * After parsing /mnt/sdcard/CustomMaps/iitm1.kmz 
+ * After parsing /mnt/sdcard/mapimage.kmz 
  * it uses classes from the packages com.utils and com.kml 
  * to help with handling the png, panning etc.
  * 
  */
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -58,9 +60,7 @@ public class MapActivity extends Activity {
 	private Cursor mCursor;
 	private MapDisplay mapDisplay;
 	private InertiaScroller inertiaScroller;
-	private View testView1;
-	private View testView2;
-	private View testView3;
+	private View testView1, testView2, testView3, testView4, testView5, testView6;
 	private Globals g = Globals.getInstance();
 	private MenuItem[] menuItem;
 	private int[] eventID;
@@ -75,9 +75,12 @@ public class MapActivity extends Activity {
     	mapDisplay = (MapDisplay) findViewById(R.id.mapDisplay);
     	if(mapDisplay==null) 
     		Log.e("", "R.id.mapDisplay not found!!!");
-    	testView1 = findViewById(R.id.testBtn1);
-    	testView2 = findViewById(R.id.testBtn2);
-    	testView3 = findViewById(R.id.testBtn3);
+    	testView1 = findViewById(R.id.gcBtn);
+    	testView2 = findViewById(R.id.icsrBtn);
+    	testView3 = findViewById(R.id.libBtn);
+    	testView4 = findViewById(R.id.oatBtn);
+    	testView5 = findViewById(R.id.cltBtn);
+    	testView6 = findViewById(R.id.sacBtn);
     	
     	DisplayState displayState = new DisplayState();
     	mapDisplay.setDisplayState(displayState);
@@ -90,7 +93,6 @@ public class MapActivity extends Activity {
 			myDbHelper.openDataBase();
 		} catch (IOException ioe) {}
 
-    	
     	ImageButton zoomIn = (ImageButton) findViewById(R.id.zoomIn);
         ImageButton zoomOut = (ImageButton) findViewById(R.id.zoomOut);
         
@@ -98,9 +100,7 @@ public class MapActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				mapDisplay.zoomMap(2.0f);
-				alignButtons(g, testView1);
-				alignButtons(g, testView2);
-				alignButtons(g, testView3);
+				alignButtons(g);
 			}
 		});
 
@@ -108,9 +108,7 @@ public class MapActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				mapDisplay.zoomMap(0.5f);
-				alignButtons(g, testView1);
-				alignButtons(g, testView2);
-				alignButtons(g, testView3);
+				alignButtons(g);
 			}
 		});
         
@@ -118,9 +116,7 @@ public class MapActivity extends Activity {
 			@Override
 			public boolean onLongClick(View v) {
 				Log.e("Map", "Clicked " + g.getLocation() + ":D");
-				alignButtons(g, testView1);
-				alignButtons(g, testView2);
-				alignButtons(g, testView3);
+				alignButtons(g);
 				//testView.performClick(); //Doesn't work for some reason. The context menu doesn't open fully
 				return false;
 			}
@@ -156,9 +152,74 @@ public class MapActivity extends Activity {
 				openContextMenu(testView3);
 				}
 		});
+
+        testView4.setOnClickListener(new View.OnClickListener() {
+    			@Override
+    			public void onClick(View v) {
+    				Log.e("Map", "Pin clicked");
+    				registerForContextMenu(testView4);
+    				openContextMenu(testView4);
+    				}
+    		});
         
+        testView5.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Log.e("Map", "Pin clicked");
+				registerForContextMenu(testView5);
+				openContextMenu(testView5);
+				}
+		});
+        
+        testView6.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Log.e("Map", "Pin clicked");
+				registerForContextMenu(testView6);
+				openContextMenu(testView6);
+				}
+		});
+
+        // The following takes too long for the map to load. Hence use the sdcard way.
+/*        File localFile = null;
+		try {
+			localFile = File.createTempFile("map", "kmz");
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		Log.e("Map", "TempFile");
+		localFile.setWritable(true);
+		FileOutputStream fos = null;
+		try {
+			fos = new FileOutputStream(localFile, true);
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+        InputStream is = null;
+        is = getResources().openRawResource(R.raw.mapimage);
+        int tmp = 0;
+        try {
+			tmp = is.read();
+		} catch (IOException e2) {
+			e2.printStackTrace();
+		}
+        while (tmp != -1) {
+        	try {
+        		fos.write(tmp);
+        		tmp = is.read();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+        }
+        try {
+			fos.close();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+*///        Log.e("Map", "Wrote");        
+         
         // Ensure this file is present in your phone/emulator
-        String localPath = "/mnt/sdcard/CustomMaps/iitm1.kmz";
+        String localPath = "/mnt/sdcard/mapimage.kmz";
         File localFile = new File(localPath);
 		try {
 			launchSelectMap(localFile);
@@ -169,9 +230,21 @@ public class MapActivity extends Activity {
 		} catch (MapImageTooLargeException e) {
 			e.printStackTrace();
 		}
+		mapDisplay.centerOnMapCenterLocation();
+		mapDisplay.zoomMap(0.5f);
+		alignButtons(g);
     }
     
-    // Caution: works only with length three
+    private void alignButtons(Globals g) {
+    	alignButtons(g, testView1);
+    	alignButtons(g, testView2);
+    	alignButtons(g, testView3);
+    	alignButtons(g, testView4);
+    	alignButtons(g, testView5);
+    	alignButtons(g, testView6);
+	}
+
+	// Caution: works only with length three
     private int[] tokenize(String now) {
     	String[] temp = new String[3];
 		temp = now.split(" ");
@@ -278,6 +351,88 @@ public class MapActivity extends Activity {
     		}
         	menuItem[6 + 2] = menu.add(row, v.getId(), 0, "View all events at LIB");
     	}
+    	else if(v == testView4) {
+    		menu.setHeaderTitle("OAT");
+    		mCursor0 = myDbHelper.fetchDescription("OAT", timeInfo);
+    		if (mCursor0 == null)
+    			Log.e("Map", "Whoops!");
+//    		Log.e("Map", now + " " + mCursor0.getColumnCount() + " " + mCursor0.getCount());
+    		String event;
+    		int[] eventTime = new int[3];
+    		for (row = 0; row < mCursor0.getCount(); row++) {
+    			eventID[6 + row] = mCursor0.getInt(0);
+    			event = mCursor0.getString(1);
+    			eventTime = tokenize(mCursor0.getString(2));
+    			if (eventTime[0] > timeInfo[0]) {
+    				if (eventTime[2] == 0)
+    					menuItem[9 + row] = menu.add(row, v.getId(), 0, event + " 2mrw at " + eventTime[1] + ":00");
+    				else menuItem[9 + row] = menu.add(row, v.getId(), 0, event + " 2mrw at " + eventTime[1] + ":" + eventTime[2]);
+    			} else if(eventTime[0] < timeInfo[0]);
+    			else {
+    				if (eventTime[2] == 0)
+    					menuItem[9 + row] = menu.add(row, v.getId(), 0, event + " at " + eventTime[1] + ":00");
+    				else menuItem[9 + row] = menu.add(row, v.getId(), 0, event + " at " + eventTime[1] + ":" + eventTime[2]);
+    			}
+    			mCursor0.moveToNext();
+    		}
+
+			menuItem[9 + 2] = menu.add(row, v.getId(), 0, "View all events at OAT");
+    	}
+    	else if(v == testView5) {
+    		menu.setHeaderTitle("CLT");
+    		mCursor0 = myDbHelper.fetchDescription("CLT", timeInfo);
+    		if (mCursor0 == null)
+    			Log.e("Map", "Whoops!");
+//    		Log.e("Map", now + " " + mCursor0.getColumnCount() + " " + mCursor0.getCount());
+    		String event;
+    		int[] eventTime = new int[3];
+    		for (row = 0; row < mCursor0.getCount(); row++) {
+    			eventID[8 + row] = mCursor0.getInt(0);
+    			event = mCursor0.getString(1);
+    			eventTime = tokenize(mCursor0.getString(2));
+    			if (eventTime[0] > timeInfo[0]) {
+    				if (eventTime[2] == 0)
+    					menuItem[12 + row] = menu.add(row, v.getId(), 0, event + " 2mrw at " + eventTime[1] + ":00");
+    				else menuItem[12 + row] = menu.add(row, v.getId(), 0, event + " 2mrw at " + eventTime[1] + ":" + eventTime[2]);
+    			} else if(eventTime[0] < timeInfo[0]);
+    			else {
+    				if (eventTime[2] == 0)
+    					menuItem[12 + row] = menu.add(row, v.getId(), 0, event + " at " + eventTime[1] + ":00");
+    				else menuItem[12 + row] = menu.add(row, v.getId(), 0, event + " at " + eventTime[1] + ":" + eventTime[2]);
+    			}
+    			mCursor0.moveToNext();
+    		}
+
+			menuItem[12 + 2] = menu.add(row, v.getId(), 0, "View all events at CLT");
+    	}
+    	else if(v == testView6) {
+    		menu.setHeaderTitle("SAC");
+    		mCursor0 = myDbHelper.fetchDescription("SAC", timeInfo);
+    		if (mCursor0 == null)
+    			Log.e("Map", "Whoops!");
+//    		Log.e("Map", now + " " + mCursor0.getColumnCount() + " " + mCursor0.getCount());
+    		String event;
+    		int[] eventTime = new int[3];
+    		for (row = 0; row < mCursor0.getCount(); row++) {
+    			eventID[10 + row] = mCursor0.getInt(0);
+    			event = mCursor0.getString(1);
+    			eventTime = tokenize(mCursor0.getString(2));
+    			if (eventTime[0] > timeInfo[0]) {
+    				if (eventTime[2] == 0)
+    					menuItem[15 + row] = menu.add(row, v.getId(), 0, event + " 2mrw at " + eventTime[1] + ":00");
+    				else menuItem[15 + row] = menu.add(row, v.getId(), 0, event + " 2mrw at " + eventTime[1] + ":" + eventTime[2]);
+    			} else if(eventTime[0] < timeInfo[0]);
+    			else {
+    				if (eventTime[2] == 0)
+    					menuItem[15 + row] = menu.add(row, v.getId(), 0, event + " at " + eventTime[1] + ":00");
+    				else menuItem[15 + row] = menu.add(row, v.getId(), 0, event + " at " + eventTime[1] + ":" + eventTime[2]);
+    			}
+    			mCursor0.moveToNext();
+    		}
+
+			menuItem[15 + 2] = menu.add(row, v.getId(), 0, "View all events at SAC");
+    	}
+
     }  
   
     @Override  
@@ -297,6 +452,12 @@ public class MapActivity extends Activity {
 								break;
 						case 9: Log.e("Map", "Go to LIB");
 								break;
+						case 12: Log.e("Map", "Go to CLT");
+						break;
+						case 15: Log.e("Map", "Go to OAT");
+						break;
+						case 18: Log.e("Map", "Go to SAC");
+						break;
 						default: break;
     					}
     					break;
@@ -308,7 +469,7 @@ public class MapActivity extends Activity {
     	return true;  
     }  
   
-    public void alignButtons(Globals g, View v) {
+    private void alignButtons(Globals g, View v) {
     	float screen[] = new float[2];
     	float image[] = new float[2];
     	float geo[] = new float[2];        
@@ -332,10 +493,24 @@ public class MapActivity extends Activity {
         	geo[0] = g.LIB[0];
         	geo[1] = g.LIB[1];
         }
+        else if(v == testView4) {
+        	geo[0] = g.CLT[0];
+        	geo[1] = g.CLT[1];
+        }
+        else if(v == testView5) {
+        	geo[0] = g.OAT[0];
+        	geo[1] = g.OAT[1];
+        }
+        else if(v == testView6) {
+        	geo[0] = g.SAC[0];
+        	geo[1] = g.SAC[1];
+        }
     	image = GeoToImageConverter.convertGeoToImageCoordinates(geo);
     	screen = ImageToScreenConverter.convertImageToScreenCoordinates(image);
-    	rl_lp.height = (int) (30*metrics.density);
-		rl_lp.width = (int) (35*metrics.density);
+//    	rl_lp.height = (int) (30*metrics.density);
+//		rl_lp.width = (int) (35*metrics.density);
+    	rl_lp.height = (int) (15*metrics.density);
+		rl_lp.width = (int) (15*metrics.density);
     	rl_lp.leftMargin = (int) (screen[0] - 0.25*rl_lp.width);
 		rl_lp.topMargin = (int) (screen[1] - 0.75*rl_lp.height);
 		v.requestLayout();
@@ -408,8 +583,7 @@ public class MapActivity extends Activity {
 		super.onResume();
 		Log.e("", "Le super resumed");
 		mapDisplay.centerOnMapCenterLocation();
-		alignButtons(g, testView1);
-		alignButtons(g, testView2);
-		alignButtons(g, testView3);
+		mapDisplay.zoomMap(0.5f);
+		alignButtons(g);
 	}
 }

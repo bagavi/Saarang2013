@@ -60,19 +60,21 @@ public class Home extends Activity {
 				
 				Log.i("TOUCH",Double.toString(radius));
 				Intent intent;
-				if(radius <= 50){
+				if(radius <= 35){
+					Log.i("Touch","White");
+					intent = new Intent(Home.this, MapActivity.class);
+					startActivity(intent);
 					//White
 //					Toast toast = Toast.makeText(Home.this,"White",Toast.LENGTH_SHORT);
 //					toast.setDuration(1);
 					//toast.show();
-					//Log.i("Touch","White");
 				}
-				else if(radius <= 90){
+				else if(radius <= 60){
 					//Blue
 					intent = new Intent(Home.this, SponsActivity.class);
 					startActivity(intent);
 				}
-				else if(radius <= 120){
+				else if(radius <= 90){
 					//Green
 					intent = new Intent(Home.this, ProShowActivity.class);
 					startActivity(intent);

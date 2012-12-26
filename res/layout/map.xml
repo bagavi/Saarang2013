@@ -32,7 +32,7 @@
     android:background="#00000000"
     />
   <ImageButton 
-   	android:id="@+id/testBtn1"
+   	android:id="@+id/gcBtn"
 	android:layout_width="wrap_content"
 	android:layout_height="wrap_content"
 	android:src="@drawable/pin"
@@ -40,7 +40,7 @@
 	android:background="@null" 
    />
   <ImageButton 
-   	android:id="@+id/testBtn2"
+   	android:id="@+id/libBtn"
 	android:layout_width="wrap_content"
 	android:layout_height="wrap_content"
 	android:src="@drawable/pin"
@@ -48,12 +48,37 @@
 	android:background="@null" 
    />
   <ImageButton 
-   	android:id="@+id/testBtn3"
+   	android:id="@+id/icsrBtn"
 	android:layout_width="wrap_content"
 	android:layout_height="wrap_content"
 	android:src="@drawable/pin"
 	android:scaleType="fitXY"
 	android:background="@null"
    />
-
+<ImageButton 
+   	android:id="@+id/cltBtn"
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content"
+	android:src="@drawable/pin"
+	android:scaleType="fitXY"
+	android:background="@null" 
+   />
+  <ImageButton 
+   	android:id="@+id/oatBtn"
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content"
+	android:src="@drawable/pin"
+	android:scaleType="fitXY"
+	android:background="@null" 
+   />
+  <ImageButton 
+   	android:id="@+id/sacBtn"
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content"
+	android:src="@drawable/pin"
+	android:scaleType="fitXY"
+	android:background="@null"
+   />
+  
+  
 </RelativeLayout>
